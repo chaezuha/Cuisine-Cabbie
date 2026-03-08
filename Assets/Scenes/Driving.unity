@@ -5305,14 +5305,19 @@ MonoBehaviour:
   idleLoop: {fileID: 8300000, guid: 2d4edcba1bb344da7b55de4d6ddee547, type: 3}
   accelerateLoop: {fileID: 8300000, guid: 5854b56c854c840db97b22515fafbef3, type: 3}
   reverseLoop: {fileID: 8300000, guid: 226ccbab1bef04a739430973843b7a0c, type: 3}
-  hitSound: {fileID: 8300000, guid: 3b825b8fcdd1a4a628dc51c6fc8a0b46, type: 3}
+  lowCrashSound: {fileID: 8300000, guid: 71b759929080b45309c94ea7a44e3564, type: 3}
+  mediumCrashSound: {fileID: 8300000, guid: 9daf7971cca4b4e72bbcdb0ffaf609e2, type: 3}
+  highCrashSound: {fileID: 8300000, guid: cb8018457b17e4e969c52ee904f1fe90, type: 3}
   shiftGearSound: {fileID: 8300000, guid: 005d91d4a1be14b1c9018c91be85c76e, type: 3}
   reverseFailSound: {fileID: 8300000, guid: 26bad5a6e6bbf4c4795471a561be0265, type: 3}
   gearShiftFailSound: {fileID: 8300000, guid: 978da8f12390145d7b1c8d46d486ea55, type: 3}
   pickupSound: {fileID: 8300000, guid: a9969ad1d8cfd42d2af9e0218add5baa, type: 3}
   dropoffSound: {fileID: 8300000, guid: d1c90b2608abd4e8ea63d6de16a701a8, type: 3}
   errorSound: {fileID: 8300000, guid: e86706a1480664931879d9f5add154aa, type: 3}
-  collisionImpactThreshold: 1
+  lowCrashImpactThresholdMph: 10
+  mediumCrashImpactThresholdMph: 20
+  highCrashImpactThresholdMph: 40
+  crashSoundCooldown: 0.5
   hitSoundCollider: {fileID: 1732495330}
 --- !u!95 &591580129
 Animator:
