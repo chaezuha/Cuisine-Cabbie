@@ -358,6 +358,11 @@ namespace CarStuff
             }
         }
 
+        private void OnCollisionEnter(Collision collision)
+        {
+            playerAudioController?.HandleCollision(collision);
+        }
+
         private void ConsumeFuel(float amount)
         {
             if (amount <= 0f || _currentFuel <= 0f)
