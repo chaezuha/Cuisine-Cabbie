@@ -1,3 +1,15 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:968a7bb57ee3dcf83a1a898b740fbcb45388b388b2ca677606bcc7fb79c0a1df
-size 356
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!134 &13400000
+PhysicsMaterial:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CarSlider
+  serializedVersion: 2
+  m_DynamicFriction: 0
+  m_StaticFriction: 0
+  m_Bounciness: 0
+  m_FrictionCombine: 2
+  m_BounceCombine: 0
