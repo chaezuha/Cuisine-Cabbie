@@ -15,6 +15,11 @@ namespace DeliveryMechanics
         private DropoffMechanics[] _allDropOffs;
         private int _deliveryCount;
         private string _currentMessage;
+        
+        [Header("Layer Settings")]
+        [SerializeField] private float maxRadius = 1200f;
+        [SerializeField] private int totalLayers = 6;
+        private int _currentLayer = 0;
 
         public HashSet<DropoffMechanics> GetHeldPackages()
         {
@@ -57,19 +62,56 @@ namespace DeliveryMechanics
                 _playerAudioController?.PlayDeliveryError();
                 return;
             }
+            
+            float layerSize = maxRadius / totalLayers;
+            float minDist = 0.0f;
+            float maxDist = (_currentLayer + 1) * layerSize;
+
 
             if (_allDropOffs.Length == 0)
             {
                 return;
             }
 
-            var pool = new List<DropoffMechanics>(_allDropOffs);
+            Vector3 depotPos = _pickupMechanics.GetPositon();
+            var pool = new List<DropoffMechanics>();
+            foreach (var dropoff in _allDropOffs)
+            {
+                float dist = Vector3.Distance(depotPos, dropoff.GetPositon());
+                if (dist >= minDist && dist < maxDist)
+                {
+                    pool.Add(dropoff);
+                }
+            }
+            
+            while (pool.Count == 0 && _currentLayer < totalLayers - 1)
+            {
+                _currentLayer++;
+                minDist = _currentLayer * layerSize;
+                maxDist = (_currentLayer + 1) * layerSize;
+                foreach (var dropoff in _allDropOffs)
+                {
+                    float dist = Vector3.Distance(depotPos, dropoff.GetPositon());
+                    if (dist >= minDist && dist < maxDist)
+                    {
+                        pool.Add(dropoff);
+                    }
+                }
+            }
+
+            if (pool.Count == 0) return;
+            
             var count = Mathf.Min(maxPackagesPerTrip, pool.Count);
 
             for (var i = 0; i < count; i++)
             {
                 var j = Random.Range(i, pool.Count);
                 (pool[i], pool[j]) = (pool[j], pool[i]);
+            }
+            
+            foreach (var dropoff in _allDropOffs)
+            {
+                dropoff.SetWaypointActive(false);
             }
 
             HeldPackages.Clear();
@@ -79,7 +121,6 @@ namespace DeliveryMechanics
                 HeldPackages.Add(pool[i]);
             }
 
-            _pickupMechanics.SetWaypointActive(true);
             _playerController?.RefillFuelToMax();
             _playerAudioController?.PlayPickupSuccess();
             ClearMessage();
@@ -94,6 +135,10 @@ namespace DeliveryMechanics
                 _playerController?.RefuelFromDropoff();
                 _playerAudioController?.PlayDropoffSuccess();
                 ClearMessage();
+                if (HeldPackages.Count == 0 && _currentLayer < totalLayers - 1)
+                {
+                    _currentLayer++;
+                }
             }
             else
             {

@@ -5273,6 +5273,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeliveryBrain
   maxPackagesPerTrip: 3
+  maxRadius: 1200
+  totalLayers: 6
 --- !u!114 &591580127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6813,6 +6815,7 @@ GameObject:
   - component: {fileID: 828166038}
   - component: {fileID: 828166037}
   - component: {fileID: 828166039}
+  - component: {fileID: 828166040}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -6861,6 +6864,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PauseMenu
   pauseMenu: {fileID: 691451566}
+--- !u!114 &828166040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828166036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e82c1445e1b94104be1d05f3b2953d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FrameRate
 --- !u!1001 &831555454
 PrefabInstance:
   m_ObjectHideFlags: 0

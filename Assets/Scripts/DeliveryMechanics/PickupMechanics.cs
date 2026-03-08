@@ -43,6 +43,7 @@ namespace DeliveryMechanics
             _pickUpPos = transform.position;
             _waypointIsActive = false;
             waypointBrain = FindObjectOfType<WaypointBrain>();
+            waypointBrain.SetPickUpPos(_pickUpPos);
         }
         
         private void Update()

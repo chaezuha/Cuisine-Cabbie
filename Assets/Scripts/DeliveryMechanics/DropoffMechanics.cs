@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace DeliveryMechanics
@@ -6,12 +7,16 @@ namespace DeliveryMechanics
     public class DropoffMechanics : MonoBehaviour
     {
         [SerializeField] private WaypointBrain waypointBrain;
+        [SerializeField] private PickupMechanics pickUpMechanics;
         [SerializeField] private string dropOffId;
 
         private bool _waypointIsActive;
-        private float _distanceFromPlayer;
+        private float _distanceFromPlayer;  
+        private float _distanceFromDepot;
         private TMP_Text _text;
         private Vector3 _dropOffPos;
+        private Vector3 _pickUpPos;
+        private float _distanceFromPickUpPos;
 
         public Vector3 GetPositon()
         {
@@ -21,6 +26,7 @@ namespace DeliveryMechanics
         public void SetWaypointActive(bool active)
         {
             _waypointIsActive = active;
+            gameObject.SetActive(active);
         }
         
         private void Awake()
@@ -33,6 +39,8 @@ namespace DeliveryMechanics
 
         private void Start()
         {
+            //_pickUpPos = pickUpMechanics.GetPositon();
+            _distanceFromPickUpPos = Vector3.Distance(_dropOffPos, _pickUpPos);
             _text = GetComponentInChildren<TMP_Text>();
             _dropOffPos = transform.position;
             _waypointIsActive = false;
