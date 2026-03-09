@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 4.99, y: 0, z: -0.17}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8532059983596408999}
@@ -127,6 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeliveryMechanics.DropoffMechanics
   waypointBrain: {fileID: 0}
+  pickUpMechanics: {fileID: 0}
   dropOffId: 
 --- !u!1 &5169973193708192086
 GameObject:
@@ -280,7 +281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ed312420e0a3498e93fbeeaba559b0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaypointText
-  _camera: {fileID: 0}
+  playerCamera: {fileID: 0}
   dropoffMechanics: {fileID: 0}
 --- !u!1 &7674447592887337055
 GameObject:
@@ -397,5 +398,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ed312420e0a3498e93fbeeaba559b0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _camera: {fileID: 0}
+  playerCamera: {fileID: 0}
   dropoffMechanics: {fileID: 0}

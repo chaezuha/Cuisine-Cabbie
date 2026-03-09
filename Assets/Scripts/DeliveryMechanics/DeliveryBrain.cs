@@ -132,7 +132,11 @@ namespace DeliveryMechanics
             {
                 SetDeliveryCount(_deliveryCount + 1);
                 dropoff.SetWaypointActive(false);
-                _playerController?.RefuelFromDropoff();
+                if (_pickupMechanics != null && _playerController != null)
+                {
+                    var deliveryDistanceMeters = Vector3.Distance(_pickupMechanics.GetPositon(), dropoff.GetPositon());
+                    _playerController.RefuelFromDropoff(deliveryDistanceMeters);
+                }
                 _playerAudioController?.PlayDropoffSuccess();
                 ClearMessage();
                 if (HeldPackages.Count == 0 && _currentLayer < totalLayers - 1)

@@ -22,7 +22,7 @@ public class Fuel : MonoBehaviour
 
     public void SetFuel(float fuel)
     {
+        
         slider.value = fuel;
     }
-    //working
 }

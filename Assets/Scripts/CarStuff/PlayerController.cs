@@ -13,6 +13,7 @@ namespace CarStuff
 
         [SerializeField] private float maxFuel = 1000.0f;
         [SerializeField] private float dropoffRefuelAmount = 300.0f;
+        [SerializeField] private float dropoffDistanceMultiplier = 1.0f;
         [SerializeField] private float fuelUseRate = 1.0f;
         [SerializeField] private float coastingFuelUseRate = 0.1f;
         [SerializeField] private float crawlFuelUseRate = 0.25f;
@@ -259,9 +260,13 @@ namespace CarStuff
             fuelBar.SetFuel(_currentFuel);
         }
 
-        public void RefuelFromDropoff()
+        public void RefuelFromDropoff(float distanceMeters)
         {
-            AddFuel(dropoffRefuelAmount);
+            const float metersToFeet = 3.28084f;
+            var distanceFeet = Mathf.Max(0f, distanceMeters * metersToFeet);
+            var distanceBonus = distanceFeet * dropoffDistanceMultiplier;
+            var refuelAmount = dropoffRefuelAmount + distanceBonus;
+            AddFuel(refuelAmount);
         }
 
 
