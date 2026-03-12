@@ -57,7 +57,7 @@ namespace DeliveryMechanics
                 _text.fontMaterial.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.2f);
                 _text.fontMaterial.SetColor(ShaderUtilities.ID_OutlineColor, Color.black);
                 var roundedDistance = Mathf.RoundToInt(_distanceFromPlayer * 3.281f);
-                _text.text = "RETURN TO DEPOT" + '\n' + (roundedDistance) + " feet away";
+                _text.text = "PICK UP PACKAGES HERE" + '\n' + (roundedDistance) + " feet away";
             }
             else
             {
