@@ -194,7 +194,7 @@ namespace CarStuff
             return Mathf.FloorToInt(GetSpeedMagnitude() * MetersPerSecondToMph);
         }
 
-        /*
+        
         public float RampUpGrip()
         {
             
@@ -207,7 +207,7 @@ namespace CarStuff
             
             return Mathf.Lerp(minGrip, maxGrip, t);
         }
-        */
+        
 
         public float GetMinBrakeSpeed()
         {
@@ -287,7 +287,7 @@ namespace CarStuff
             orbitalFollow.HorizontalAxis.Recentering.Enabled = speed > 1.0f;
             orbitalFollow.VerticalAxis.Recentering.Enabled = speed > 1.0f;
             
-            //gripFactor = RampUpGrip();
+            gripFactor = RampUpGrip();
         }
 
         //idk the term but its like car crawl forward/reverse slowly when on drive/reverse and not pressing gas
