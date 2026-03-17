@@ -84,10 +84,31 @@ public class PlayerUI : MonoBehaviour
         }
 
         var gearType = _gearbox.GetGearType();
-
+        
+        /*
         SetTextColor(neutralText, gearType == 0 ? activeColor : inactiveColor);
         SetTextColor(driveText, gearType == 1 ? activeColor : inactiveColor);
         SetTextColor(reverseText, gearType == -1 ? activeColor : inactiveColor);
+        */
+
+        if (gearType == 0)
+        {
+            neutralText.gameObject.SetActive(true);
+            driveText.gameObject.SetActive(false);
+            reverseText.gameObject.SetActive(false);
+        }
+        else if (gearType == 1)
+        {
+            neutralText.gameObject.SetActive(false);
+            driveText.gameObject.SetActive(true);
+            reverseText.gameObject.SetActive(false);
+        }
+        else if (gearType == -1)
+        {
+            neutralText.gameObject.SetActive(false);
+            driveText.gameObject.SetActive(false);
+            reverseText.gameObject.SetActive(true);
+        }
     }
 
     private void UpdateSpeedText()
