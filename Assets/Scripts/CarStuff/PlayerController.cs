@@ -254,6 +254,11 @@ namespace CarStuff
             return _currentFuel;
         }
 
+        public float GetMaxFuel()
+        {
+            return maxFuel;
+        }
+
         public void RefillFuelToMax()
         {
             _currentFuel = maxFuel;
