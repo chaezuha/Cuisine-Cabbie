@@ -331,7 +331,8 @@ GameObject:
   - component: {fileID: 6578966361286275068}
   - component: {fileID: 820019881444000075}
   - component: {fileID: 8952349907646053179}
-  m_Layer: 5
+  - component: {fileID: 7137548525906313912}
+  m_Layer: 7
   m_Name: Delivery Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -385,7 +386,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 47db771c5c53440e9b22be018c91e122, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fbefe62827c604d5eb13a03a92317615, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -395,6 +396,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7137548525906313912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6976725601733764366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74294e690680f4d238d5931c72fdc297, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  miniMapCamera: {fileID: 0}
 --- !u!1 &7674447592887337055
 GameObject:
   m_ObjectHideFlags: 0
@@ -524,7 +538,7 @@ GameObject:
   - component: {fileID: 3953489780950881961}
   - component: {fileID: 7260504005341472065}
   - component: {fileID: 782039569629434036}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
