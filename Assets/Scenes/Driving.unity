@@ -6182,6 +6182,8 @@ GameObject:
   - component: {fileID: 591580128}
   - component: {fileID: 591580129}
   - component: {fileID: 591580130}
+  - component: {fileID: 591580132}
+  - component: {fileID: 591580131}
   m_Layer: 0
   m_Name: Car
   m_TagString: Untagged
@@ -6347,6 +6349,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   waypointBrain: {fileID: 490937755}
   playerAudioController: {fileID: 0}
+  collisionCameraShake: {fileID: 591580131}
   fuelBar: {fileID: 1197612795}
   maxFuel: 1000
   dropoffRefuelAmount: 50
@@ -6514,6 +6517,77 @@ CapsuleCollider:
   m_Height: 1.05
   m_Direction: 2
   m_Center: {x: 0, y: -0.07, z: 0.03}
+--- !u!114 &591580131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 591580116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18ccf2a59f82466cab7171a967435c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CarStuff.CollisionCameraShake
+  lowImpactThresholdMph: 5
+  mediumImpactThresholdMph: 12
+  highImpactThresholdMph: 22
+  lowShakeForce: 0.3
+  mediumShakeForce: 0.7
+  highShakeForce: 1.5
+--- !u!114 &591580132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 591580116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineImpulseSource
+  ImpulseDefinition:
+    ImpulseChannel: 1
+    ImpulseShape: 2
+    CustomImpulseShape:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    ImpulseDuration: 0.2
+    ImpulseType: 0
+    DissipationRate: 0.25
+    RawSignal: {fileID: 0}
+    AmplitudeGain: 1
+    FrequencyGain: 1
+    RepeatMode: 0
+    Randomize: 1
+    TimeEnvelope:
+      AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      AttackTime: 0
+      SustainTime: 0.2
+      DecayTime: 0.7
+      ScaleWithImpact: 1
+      HoldForever: 0
+    ImpactRadius: 100
+    DirectionMode: 0
+    DissipationMode: 2
+    DissipationDistance: 100
+    PropagationSpeed: 343
+  DefaultVelocity: {x: 1, y: 0.5, z: 0}
 --- !u!4 &596088086 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1827525150140063008, guid: 6bcf43dfa74e949ebbb6d9591da412d4, type: 3}
@@ -13396,6 +13470,7 @@ GameObject:
   - component: {fileID: 1380670633}
   - component: {fileID: 1380670638}
   - component: {fileID: 1380670634}
+  - component: {fileID: 1380670639}
   - component: {fileID: 1380670637}
   m_Layer: 0
   m_Name: CinemachineCamera
@@ -13612,6 +13687,30 @@ MonoBehaviour:
       Wait: 1
       Time: 2
     Restrictions: 0
+--- !u!114 &1380670639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1380670631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineImpulseListener
+  ApplyAfter: 2
+  ChannelMask: 1
+  Gain: 1
+  Use2DDistance: 0
+  UseCameraSpace: 1
+  SignalCombinationMode: 0
+  ReactionSettings:
+    m_SecondaryNoise: {fileID: 0}
+    AmplitudeGain: 1
+    FrequencyGain: 1
+    Duration: 1
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &1380998314 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 404449a5b3e754f89b1c69f3069b832b, type: 3}

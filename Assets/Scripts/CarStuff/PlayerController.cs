@@ -7,6 +7,7 @@ namespace CarStuff
     {
         [SerializeField] private WaypointBrain waypointBrain;
         [SerializeField] private PlayerAudioController playerAudioController;
+        [SerializeField] private CollisionCameraShake collisionCameraShake;
 
         [Header("Fuel Settings")] [SerializeField]
         private Fuel fuelBar;
@@ -371,6 +372,7 @@ namespace CarStuff
         private void OnCollisionEnter(Collision collision)
         {
             playerAudioController?.HandleCollision(collision);
+            collisionCameraShake?.HandleCollision(collision);
         }
 
         private void ConsumeFuel(float amount)
