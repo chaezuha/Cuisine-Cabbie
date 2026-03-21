@@ -6323,7 +6323,7 @@ MonoBehaviour:
   brakeMultiplier: 15
   engineBrakeFactor: 0.15
   engineBrakeMinSpeed: 0.5
-  turnMultiplier: 50
+  turnMultiplier: 40
   gripFactor: 0.5
   turnFriction: 0.9995
   springStrength: 40000
