@@ -28,9 +28,11 @@ public class Fuel : MonoBehaviour
             slider.interactable = false;
         }
         */
-        needleTransform = transform.Find("Gauge_Needle");
-        fuelLabelTemplateTransform = transform.Find("FuelLabelTemplate");
-        fuelLabelTemplateTransform.gameObject.SetActive(false);
+        needleTransform = GameObject.Find("Gauge_Needle").transform;
+        fuelLabelTemplateTransform = GameObject.Find("FuelLabelTemplate").transform;
+        
+        //builds and runs but freezes editor
+        //fuelLabelTemplateTransform.gameObject.SetActive(false)
         
         _playerController = GameObject.Find("Car").GetComponent<PlayerController>();
         _gasIcon = GameObject.Find("Gas_Icon_Blink").GetComponent<Image>();
@@ -73,7 +75,7 @@ public class Fuel : MonoBehaviour
 
         for (int i = 0; i <= labelAmount; i++)
         {
-            Transform fuelLabelTransform = Instantiate(fuelLabelTemplateTransform, transform);
+            Transform fuelLabelTransform = Instantiate(fuelLabelTemplateTransform, fuelLabelTemplateTransform.parent);
             float labelFuelNormalized = (float)i / labelAmount;
             float fuelLabelAngle = ZERO_FUEL_ANGLE - labelFuelNormalized * totalAngleSize;
             fuelLabelTransform.eulerAngles = new Vector3(0, 0, fuelLabelAngle);
