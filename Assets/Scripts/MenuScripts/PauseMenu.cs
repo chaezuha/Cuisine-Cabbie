@@ -4,21 +4,25 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenu;
+    public GameObject instructionsPanel;
     public static bool IsPaused;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         pauseMenu.SetActive(false);
+        instructionsPanel.SetActive(false);
         Cursor.visible = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (IsPaused)
+            if (instructionsPanel.activeSelf)
+            {
+                CloseInstructions();
+            }
+            else if (IsPaused)
             {
                 ResumeGame();
             }
@@ -43,6 +47,18 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
         IsPaused = false;
         Cursor.visible = false;
+    }
+
+    public void OpenInstructions()
+    {
+        pauseMenu.SetActive(false);
+        instructionsPanel.SetActive(true);
+    }
+
+    public void CloseInstructions()
+    {
+        instructionsPanel.SetActive(false);
+        pauseMenu.SetActive(true);
     }
 
     public void GoToMainMenu()
