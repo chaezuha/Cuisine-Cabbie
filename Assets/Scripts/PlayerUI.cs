@@ -149,7 +149,7 @@ public class PlayerUI : MonoBehaviour
         {
             if (!_deliveryBrain.HasPackages())
             {
-                packageListText.text = "No packages held";
+                packageListText.text = "No packages held\nReturn to depot for pickup";
             }
             else
             {

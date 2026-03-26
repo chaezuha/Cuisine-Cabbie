@@ -386,7 +386,7 @@ namespace CarStuff
             fuelBar.SetFuel(_currentFuel);
         }
 
-        private void AddFuel(float amount)
+        public void AddFuel(float amount)
         {
             if (amount <= 0f || _currentFuel >= maxFuel)
             {

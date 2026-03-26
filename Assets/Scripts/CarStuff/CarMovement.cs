@@ -24,6 +24,7 @@ namespace CarStuff
         private float turnMultiplier;
         [SerializeField] private float gripFactor;
         [SerializeField] private float turnFriction;
+        [SerializeField] private float driftTurnBoost = 1.4f;
 
         [Header("Raycast Suspension")] [SerializeField]
         private float springStrength = 500f;
@@ -39,6 +40,7 @@ namespace CarStuff
         private const float MetersPerSecondToMph = 2.237f;
 
         private Rigidbody _rb;
+        private bool _isDrifting;
 
         public void ApplyBrake(bool brakeCondition)
         {
@@ -63,6 +65,7 @@ namespace CarStuff
 
         public void ApplyDrift(bool isDrifiting)
         {
+            _isDrifting = isDrifiting;
             if (isDrifiting == false)
             {
                 float maxGrip = 50.0f;
@@ -181,7 +184,8 @@ namespace CarStuff
             var speedRatio = Mathf.Clamp01(currentSpeed / safeMaxForwardSpeed);
             var rampUp = Mathf.Clamp01(currentSpeed / 5f);
             var speedDamping = Mathf.Lerp(1f, 0.3f, speedRatio);
-            return rampUp * speedDamping * turnMultiplier;
+            var drift = _isDrifting ? driftTurnBoost : 1f;
+            return rampUp * speedDamping * turnMultiplier * drift;
         }
 
         public float GetForwardSpeed()

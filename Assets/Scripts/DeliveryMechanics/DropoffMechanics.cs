@@ -10,6 +10,10 @@ namespace DeliveryMechanics
         [SerializeField] private PickupMechanics pickUpMechanics;
         [SerializeField] private string dropOffId;
 
+        [Header("Overrides")]
+        [SerializeField] private int circleOverride = -1;
+        [SerializeField] private float fuelOverride = -1f;
+
         private bool _waypointIsActive;
         private float _distanceFromPlayer;  
         private float _distanceFromDepot;
@@ -66,6 +70,16 @@ namespace DeliveryMechanics
         public string GetDropOffId()
         {
             return dropOffId;
+        }
+
+        public int GetCircleOverride()
+        {
+            return circleOverride;
+        }
+
+        public float GetFuelOverride()
+        {
+            return fuelOverride;
         }
         
         private void Update()
