@@ -21,6 +21,9 @@
 .DS_Store
 Thumbs.db
 
+# Crash dumps
+mono_crash.*
+
 # Unity asset store
 sysinfo.txt
 *.svd
