@@ -7733,6 +7733,9 @@ MonoBehaviour:
   crawlFuelUseRate: 0.15
   neutralFuelUseRate: 0.01
   neutralSpeedRetentionPerSecond: 0.98
+  fuelEconomyEnabled: 1
+  lowSpeedFuelMultiplier: 3
+  highSpeedFuelMultiplier: 1
   shiftCooldown: 0.2
   scrollShiftActivationThreshold: 0.35
   scrollShiftReleaseThreshold: 0.05

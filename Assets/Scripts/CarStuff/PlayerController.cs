@@ -20,9 +20,20 @@ namespace CarStuff
         [SerializeField] private float crawlFuelUseRate = 0.25f;
         [SerializeField] private float neutralFuelUseRate = 0.01f;
         [SerializeField, Range(0.9f, 1f)] private float neutralSpeedRetentionPerSecond = 0.98f;
+        
+        [Header("Fuel Economy")]
+        [SerializeField] private bool fuelEconomyEnabled = true;
+        [SerializeField] private float lowSpeedFuelMultiplier = 1.5f;
+        [SerializeField] private float highSpeedFuelMultiplier = 0.7f;
+        [SerializeField] private float fuelEconomyMaxSpeed = -1f;
+        
         private float _currentFuel;
 
-        [Header("Input Settings")] 
+        [Header("Shift Settings")]
+        [SerializeField] private float shiftCooldown = 0.2f;
+        [SerializeField] private float scrollShiftActivationThreshold = 0.35f;
+        [SerializeField] private float scrollShiftReleaseThreshold = 0.05f;
+
         private KeyCode _forwardKey;
         private KeyCode _brakeKey;
         private KeyCode _driftKey;
@@ -32,13 +43,8 @@ namespace CarStuff
         private KeyCode _rightKey;
         private bool _useMouseScrollToShift = false;
         private bool _invertScrollShift = false;
-
         private int _controlNum = 1;
-        
         private float _shiftTimer = 0f;
-        [SerializeField] private float shiftCooldown = 0.2f;
-        [SerializeField] private float scrollShiftActivationThreshold = 0.35f;
-        [SerializeField] private float scrollShiftReleaseThreshold = 0.05f;
         private bool _scrollShiftReady = true;
 
         private CarMovement _physics;
@@ -344,7 +350,7 @@ namespace CarStuff
                 if (isGrounded)
                 {
                     _physics.ApplyGas(_gas, gearType);
-                    ConsumeFuel(fuelUseRate);
+                    ConsumeFuel(fuelUseRate * GetFuelEconomyMultiplier());
                 }
             }
             else
@@ -390,6 +396,14 @@ namespace CarStuff
             collisionCameraShake?.HandleCollision(collision);
             float fuelLost = fuelBefore - _currentFuel;
             _telemetry?.OnCollision(fuelLost);
+        }
+
+        private float GetFuelEconomyMultiplier()
+        {
+            if (!fuelEconomyEnabled) return 1f;
+            var maxSpeed = fuelEconomyMaxSpeed > 0f ? fuelEconomyMaxSpeed : _physics.GetMaxForwardSpeed();
+            var speedRatio = Mathf.Clamp01(Mathf.Abs(_physics.GetForwardSpeed()) / maxSpeed);
+            return Mathf.Lerp(lowSpeedFuelMultiplier, highSpeedFuelMultiplier, speedRatio);
         }
 
         public void ConsumeFuel(float amount)

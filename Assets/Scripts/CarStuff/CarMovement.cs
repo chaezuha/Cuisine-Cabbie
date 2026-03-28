@@ -203,6 +203,11 @@ namespace CarStuff
             return engineBrakeMinSpeed;
         }
 
+        public float GetMaxForwardSpeed()
+        {
+            return maxSpeedForward;
+        }
+
         public float GetSpeedMagnitude()
         {
             return _rb.linearVelocity.magnitude;
