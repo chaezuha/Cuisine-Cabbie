@@ -10582,6 +10582,7 @@ MonoBehaviour:
   pauseMenu: {fileID: 691451566}
   instructionsPanel: {fileID: 794498467}
   optionsPanel: {fileID: 1069961865}
+  playerUI: {fileID: 551985552}
 --- !u!114 &828166040
 MonoBehaviour:
   m_ObjectHideFlags: 0
