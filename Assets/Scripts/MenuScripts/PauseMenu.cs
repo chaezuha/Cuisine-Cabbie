@@ -5,12 +5,14 @@ public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenu;
     public GameObject instructionsPanel;
+    public GameObject optionsPanel;
     public static bool IsPaused;
 
     void Start()
     {
         pauseMenu.SetActive(false);
         instructionsPanel.SetActive(false);
+        optionsPanel.SetActive(false);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -19,7 +21,11 @@ public class PauseMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (instructionsPanel.activeSelf)
+            if (optionsPanel.activeSelf)
+            {
+                CloseOptions();
+            }
+            else if (instructionsPanel.activeSelf)
             {
                 CloseInstructions();
             }
@@ -61,6 +67,18 @@ public class PauseMenu : MonoBehaviour
     public void CloseInstructions()
     {
         instructionsPanel.SetActive(false);
+        pauseMenu.SetActive(true);
+    }
+
+    public void OpenOptions()
+    {
+        pauseMenu.SetActive(false);
+        optionsPanel.SetActive(true);
+    }
+
+    public void CloseOptions()
+    {
+        optionsPanel.SetActive(false);
         pauseMenu.SetActive(true);
     }
 

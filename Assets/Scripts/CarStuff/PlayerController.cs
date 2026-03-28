@@ -31,6 +31,7 @@ namespace CarStuff
         private KeyCode _leftKey;
         private KeyCode _rightKey;
         private bool _useMouseScrollToShift = false;
+        private bool _invertScrollShift = false;
 
         private int _controlNum = 1;
         
@@ -110,6 +111,7 @@ namespace CarStuff
             _scrollShiftReady = false;
             _shiftTimer = shiftCooldown;
             int direction = scroll > 0 ? 1 : -1;
+            if (_invertScrollShift) direction *= -1;
             TryShiftGear(direction);
         }
 
@@ -233,6 +235,16 @@ namespace CarStuff
                     m_Anim.SetBool("Right_Bool", false);
                 }
             }
+        }
+
+        public void SetInvertScrollShift(bool invert)
+        {
+            _invertScrollShift = invert;
+        }
+
+        public bool GetInvertScrollShift()
+        {
+            return _invertScrollShift;
         }
 
         public void SwitchControls()
