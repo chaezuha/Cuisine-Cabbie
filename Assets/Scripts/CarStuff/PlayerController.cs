@@ -387,7 +387,7 @@ namespace CarStuff
             collisionCameraShake?.HandleCollision(collision);
         }
 
-        private void ConsumeFuel(float amount)
+        public void ConsumeFuel(float amount)
         {
             if (amount <= 0f || _currentFuel <= 0f)
             {

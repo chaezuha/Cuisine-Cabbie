@@ -31,6 +31,11 @@ namespace CarStuff
         [SerializeField] private float mediumCrashImpactThresholdMph = 12f;
         [SerializeField] private float highCrashImpactThresholdMph = 22f;
         [SerializeField] private float crashSoundCooldown = 0.5f;
+
+        [Header("Collision Fuel Loss")]
+        [SerializeField] private float lowImpactFuelLoss = 10f;
+        [SerializeField] private float mediumImpactFuelLoss = 30f;
+        [SerializeField] private float highImpactFuelLoss = 60f;
         [SerializeField] private Collider hitSoundCollider;
 
         private const float MetersPerSecondToMph = 2.237f;
@@ -98,6 +103,12 @@ namespace CarStuff
 
             PlayOneShot(crashClip);
             _nextCrashSoundTime = Time.time + crashSoundCooldown;
+
+            if (_playerController != null)
+            {
+                var fuelLoss = GetFuelLossForImpact(impactSpeedMph);
+                _playerController.ConsumeFuel(fuelLoss);
+            }
         }
 
         private AudioClip GetCrashSoundForImpact(float impactSpeedMph)
@@ -113,6 +124,15 @@ namespace CarStuff
             }
 
             return GetFirstValidClip(lowCrashSound, mediumCrashSound, highCrashSound);
+        }
+
+        private float GetFuelLossForImpact(float impactSpeedMph)
+        {
+            if (impactSpeedMph >= highCrashImpactThresholdMph)
+                return highImpactFuelLoss;
+            if (impactSpeedMph >= mediumCrashImpactThresholdMph)
+                return mediumImpactFuelLoss;
+            return lowImpactFuelLoss;
         }
 
         private static AudioClip GetFirstValidClip(AudioClip first, AudioClip second, AudioClip third)
