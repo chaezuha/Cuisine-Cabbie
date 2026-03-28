@@ -12,6 +12,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(false);
         instructionsPanel.SetActive(false);
         Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
@@ -39,6 +40,7 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 0f;
         IsPaused = true;
         Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void ResumeGame()
@@ -47,6 +49,7 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
         IsPaused = false;
         Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void OpenInstructions()
@@ -64,6 +67,8 @@ public class PauseMenu : MonoBehaviour
     public void GoToMainMenu()
     {
         Time.timeScale = 1f;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         SceneManager.LoadScene("MainMenu");
     }
 
