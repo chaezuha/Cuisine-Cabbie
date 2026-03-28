@@ -7734,8 +7734,9 @@ MonoBehaviour:
   neutralFuelUseRate: 0.01
   neutralSpeedRetentionPerSecond: 0.98
   fuelEconomyEnabled: 1
-  lowSpeedFuelMultiplier: 3
-  highSpeedFuelMultiplier: 1
+  lowSpeedFuelMultiplier: 1.5
+  highSpeedFuelMultiplier: 0.9
+  fuelEconomyMaxSpeed: 30
   shiftCooldown: 0.2
   scrollShiftActivationThreshold: 0.35
   scrollShiftReleaseThreshold: 0.05
@@ -13070,7 +13071,7 @@ GameObject:
   - component: {fileID: 1048880606}
   m_Layer: 0
   m_Name: Cube (2)
-  m_TagString: Untagged
+  m_TagString: Ramp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14719,7 +14720,7 @@ GameObject:
   - component: {fileID: 1176688705}
   m_Layer: 0
   m_Name: Cube (1)
-  m_TagString: Untagged
+  m_TagString: Ramp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

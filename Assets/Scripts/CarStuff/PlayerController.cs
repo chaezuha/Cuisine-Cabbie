@@ -391,6 +391,9 @@ namespace CarStuff
 
         private void OnCollisionEnter(Collision collision)
         {
+            if (collision.gameObject.CompareTag("Ramp"))
+                return;
+
             float fuelBefore = _currentFuel;
             playerAudioController?.HandleCollision(collision);
             collisionCameraShake?.HandleCollision(collision);

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Fuel
   - Pickup
+  - Ramp
   layers:
   - Default
   - TransparentFX
