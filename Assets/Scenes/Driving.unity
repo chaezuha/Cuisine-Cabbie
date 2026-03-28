@@ -7556,6 +7556,7 @@ GameObject:
   - component: {fileID: 591580129}
   - component: {fileID: 591580132}
   - component: {fileID: 591580131}
+  - component: {fileID: 591580133}
   m_Layer: 0
   m_Name: Car
   m_TagString: Untagged
@@ -7851,6 +7852,9 @@ MonoBehaviour:
   mediumCrashImpactThresholdMph: 20
   highCrashImpactThresholdMph: 40
   crashSoundCooldown: 0.5
+  lowImpactFuelLoss: 10
+  mediumImpactFuelLoss: 30
+  highImpactFuelLoss: 60
   hitSoundCollider: {fileID: 1732495330}
 --- !u!95 &591580129
 Animator:
@@ -7945,6 +7949,18 @@ MonoBehaviour:
     DissipationDistance: 100
     PropagationSpeed: 343
   DefaultVelocity: {x: 1, y: 0.5, z: 0}
+--- !u!114 &591580133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 591580116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9522ec34fbe34fb3ba655f180431903, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeliveryMechanics.DeliveryTelemetry
 --- !u!4 &596088086 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1827525150140063008, guid: 6bcf43dfa74e949ebbb6d9591da412d4, type: 3}

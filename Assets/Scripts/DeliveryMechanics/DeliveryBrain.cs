@@ -12,6 +12,7 @@ namespace DeliveryMechanics
         private PickupMechanics _pickupMechanics;
         private PlayerAudioController _playerAudioController;
         private PlayerController _playerController;
+        private DeliveryTelemetry _telemetry;
         private DropoffMechanics[] _allDropOffs;
         private int _deliveryCount;
         private string _currentMessage;
@@ -53,6 +54,11 @@ namespace DeliveryMechanics
             if (_playerController == null)
             {
                 _playerController = FindFirstObjectByType<PlayerController>();
+            }
+            _telemetry = GetComponent<DeliveryTelemetry>();
+            if (_telemetry == null)
+            {
+                _telemetry = FindFirstObjectByType<DeliveryTelemetry>();
             }
             SetDeliveryCount(0);
         }
@@ -101,6 +107,7 @@ namespace DeliveryMechanics
                     HeldPackages.Add(pool[i]);
                 }
 
+                _telemetry?.OnPickup();
                 _playerController?.RefillFuelToMax();
                 _playerAudioController?.PlayPickupSuccess();
                 ClearMessage();
@@ -173,6 +180,7 @@ namespace DeliveryMechanics
                 HeldPackages.Add(pool2[i]);
             }
 
+            _telemetry?.OnPickup();
             _playerController?.RefillFuelToMax();
             _playerAudioController?.PlayPickupSuccess();
             ClearMessage();
@@ -197,6 +205,7 @@ namespace DeliveryMechanics
                         _playerController.RefuelFromDropoff(deliveryDistanceMeters);
                     }
                 }
+                _telemetry?.OnDropoff(dropoff.GetDropOffId(), dropoff.GetPositon());
                 _playerAudioController?.PlayDropoffSuccess();
                 ClearMessage();
                 if (HeldPackages.Count == 0 && _currentLayer < totalLayers - 1)

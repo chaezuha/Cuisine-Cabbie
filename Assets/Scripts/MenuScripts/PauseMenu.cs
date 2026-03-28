@@ -1,3 +1,4 @@
+using DeliveryMechanics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -90,6 +91,16 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+
+        if (TelemetrySession.Instance != null)
+        {
+            var telemetry = FindFirstObjectByType<DeliveryTelemetry>();
+            var brain = FindFirstObjectByType<DeliveryBrain>();
+            int deliveries = brain != null ? brain.GetDeliveryCount() : 0;
+            int rounds = telemetry != null ? telemetry.GetRoundNumber() : 0;
+            TelemetrySession.Instance.FinishCurrentRun(deliveries, rounds, "Quit to Menu");
+        }
+
         SceneManager.LoadScene("MainMenu");
     }
 

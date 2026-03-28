@@ -43,6 +43,7 @@ namespace CarStuff
 
         private CarMovement _physics;
         private Gearbox _gearbox;
+        private DeliveryTelemetry _telemetry;
 
         private int _gas;
         private bool _isBraking;
@@ -136,6 +137,7 @@ namespace CarStuff
                 playerAudioController = FindFirstObjectByType<PlayerAudioController>();
             }
 
+            _telemetry = FindFirstObjectByType<DeliveryTelemetry>();
             _currentFuel = maxFuel;
             fuelBar.SetMaxFuel(maxFuel);
         }
@@ -383,8 +385,11 @@ namespace CarStuff
 
         private void OnCollisionEnter(Collision collision)
         {
+            float fuelBefore = _currentFuel;
             playerAudioController?.HandleCollision(collision);
             collisionCameraShake?.HandleCollision(collision);
+            float fuelLost = fuelBefore - _currentFuel;
+            _telemetry?.OnCollision(fuelLost);
         }
 
         public void ConsumeFuel(float amount)
