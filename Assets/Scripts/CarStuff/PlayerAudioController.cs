@@ -7,6 +7,11 @@ namespace CarStuff
         [Header("References")]
         [SerializeField] private AudioSource engineAudioSource;
         [SerializeField] private AudioSource sfxAudioSource;
+        [SerializeField] private AudioSource musicAudioSource;
+
+        [Header("Music")]
+        [SerializeField] private AudioClip gameMusic;
+        [SerializeField] [Range(0f, 1f)] private float musicVolume = 0.5f;
 
         [Header("Engine Loops")]
         [SerializeField] private AudioClip idleLoop;
@@ -70,6 +75,14 @@ namespace CarStuff
         private void Start()
         {
             SetEngineLoop(idleLoop);
+
+            if (musicAudioSource != null && gameMusic != null)
+            {
+                musicAudioSource.clip = gameMusic;
+                musicAudioSource.loop = true;
+                musicAudioSource.volume = musicVolume;
+                musicAudioSource.Play();
+            }
         }
 
         private void Update()
@@ -267,6 +280,20 @@ namespace CarStuff
         public void PlayDeliveryError()
         {
             PlayOneShot(errorSound);
+        }
+
+        public void PauseAllAudio()
+        {
+            if (musicAudioSource != null) musicAudioSource.Pause();
+            if (engineAudioSource != null) engineAudioSource.Pause();
+            if (sfxAudioSource != null) sfxAudioSource.Pause();
+        }
+
+        public void ResumeAllAudio()
+        {
+            if (musicAudioSource != null) musicAudioSource.UnPause();
+            if (engineAudioSource != null) engineAudioSource.UnPause();
+            if (sfxAudioSource != null) sfxAudioSource.UnPause();
         }
 
         private void PlayOneShot(AudioClip clip)
