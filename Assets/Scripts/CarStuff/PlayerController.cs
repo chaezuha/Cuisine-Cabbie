@@ -340,6 +340,7 @@ namespace CarStuff
             var absForwardSpeed = Mathf.Abs(_physics.GetForwardSpeed());
             
            _physics.ApplyDrift(_isDrifting);
+            playerAudioController.SetDrifting(_isDrifting);
             
             if (_isBraking)
             {

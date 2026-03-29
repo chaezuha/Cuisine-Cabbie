@@ -401,7 +401,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!64 &36693227
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -7913,6 +7913,7 @@ MonoBehaviour:
   shiftGearSound: {fileID: 8300000, guid: 005d91d4a1be14b1c9018c91be85c76e, type: 3}
   reverseFailSound: {fileID: 8300000, guid: 26bad5a6e6bbf4c4795471a561be0265, type: 3}
   gearShiftFailSound: {fileID: 8300000, guid: 978da8f12390145d7b1c8d46d486ea55, type: 3}
+  driftLoop: {fileID: 8300000, guid: 86b40958bac384f4e90610eb4c1302ee, type: 3}
   pickupSound: {fileID: 8300000, guid: a9969ad1d8cfd42d2af9e0218add5baa, type: 3}
   dropoffSound: {fileID: 8300000, guid: d1c90b2608abd4e8ea63d6de16a701a8, type: 3}
   errorSound: {fileID: 8300000, guid: e86706a1480664931879d9f5add154aa, type: 3}

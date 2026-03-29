@@ -34,8 +34,8 @@ namespace CarStuff
         
         [Header("Camera")]
         [SerializeField] private CinemachineOrbitalFollow orbitalFollow;
-        
-        
+
+
         private float _distanceToGround = 1.5f;
         private const float MetersPerSecondToMph = 2.237f;
 

@@ -26,6 +26,9 @@ namespace CarStuff
         [SerializeField] private AudioClip reverseFailSound;
         [SerializeField] private AudioClip gearShiftFailSound;
 
+        [Header("Drift")]
+        [SerializeField] private AudioClip driftLoop;
+
         [Header("Delivery One-Shots")]
         [SerializeField] private AudioClip pickupSound;
         [SerializeField] private AudioClip dropoffSound;
@@ -280,6 +283,25 @@ namespace CarStuff
         public void PlayDeliveryError()
         {
             PlayOneShot(errorSound);
+        }
+
+        public void SetDrifting(bool isDrifting)
+        {
+            if (sfxAudioSource == null || driftLoop == null)
+            {
+                return;
+            }
+
+            if (isDrifting && !sfxAudioSource.isPlaying)
+            {
+                sfxAudioSource.clip = driftLoop;
+                sfxAudioSource.loop = true;
+                sfxAudioSource.Play();
+            }
+            else if (!isDrifting && sfxAudioSource.isPlaying && sfxAudioSource.clip == driftLoop)
+            {
+                sfxAudioSource.Stop();
+            }
         }
 
         public void PauseAllAudio()
