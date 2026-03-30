@@ -24,8 +24,11 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(false);
         instructionsPanel.SetActive(false);
         optionsPanel.SetActive(false);
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        if (!IsPaused)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
         if (playerAudioController == null)
         {
             playerAudioController = FindFirstObjectByType<PlayerAudioController>();
