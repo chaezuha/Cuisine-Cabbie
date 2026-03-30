@@ -7,6 +7,7 @@ namespace CarStuff
         [Header("References")]
         [SerializeField] private AudioSource engineAudioSource;
         [SerializeField] private AudioSource sfxAudioSource;
+        [SerializeField] private AudioSource driftAudioSource;
         [SerializeField] private AudioSource musicAudioSource;
 
         [Header("Music")]
@@ -35,15 +36,8 @@ namespace CarStuff
         [SerializeField] private AudioClip errorSound;
 
         [Header("Tuning Specifics")]
-        [SerializeField] private float lowCrashImpactThresholdMph = 5f;
-        [SerializeField] private float mediumCrashImpactThresholdMph = 12f;
-        [SerializeField] private float highCrashImpactThresholdMph = 22f;
         [SerializeField] private float crashSoundCooldown = 0.5f;
 
-        [Header("Collision Fuel Loss")]
-        [SerializeField] private float lowImpactFuelLoss = 10f;
-        [SerializeField] private float mediumImpactFuelLoss = 30f;
-        [SerializeField] private float highImpactFuelLoss = 60f;
         [SerializeField] private Collider hitSoundCollider;
 
         private const float MetersPerSecondToMph = 2.237f;
@@ -101,7 +95,7 @@ namespace CarStuff
             }
 
             var impactSpeedMph = collision.relativeVelocity.magnitude * MetersPerSecondToMph;
-            if (impactSpeedMph < lowCrashImpactThresholdMph)
+            if (_playerController == null || impactSpeedMph < _playerController.GetLowCrashThreshold())
             {
                 return;
             }
@@ -119,36 +113,21 @@ namespace CarStuff
 
             PlayOneShot(crashClip);
             _nextCrashSoundTime = Time.time + crashSoundCooldown;
-
-            if (_playerController != null)
-            {
-                var fuelLoss = GetFuelLossForImpact(impactSpeedMph);
-                _playerController.ConsumeFuel(fuelLoss);
-            }
         }
 
         private AudioClip GetCrashSoundForImpact(float impactSpeedMph)
         {
-            if (impactSpeedMph >= highCrashImpactThresholdMph)
+            if (impactSpeedMph >= _playerController.GetHighCrashThreshold())
             {
                 return GetFirstValidClip(highCrashSound, mediumCrashSound, lowCrashSound);
             }
 
-            if (impactSpeedMph >= mediumCrashImpactThresholdMph)
+            if (impactSpeedMph >= _playerController.GetMediumCrashThreshold())
             {
                 return GetFirstValidClip(mediumCrashSound, lowCrashSound, highCrashSound);
             }
 
             return GetFirstValidClip(lowCrashSound, mediumCrashSound, highCrashSound);
-        }
-
-        private float GetFuelLossForImpact(float impactSpeedMph)
-        {
-            if (impactSpeedMph >= highCrashImpactThresholdMph)
-                return highImpactFuelLoss;
-            if (impactSpeedMph >= mediumCrashImpactThresholdMph)
-                return mediumImpactFuelLoss;
-            return lowImpactFuelLoss;
         }
 
         private static AudioClip GetFirstValidClip(AudioClip first, AudioClip second, AudioClip third)
@@ -287,20 +266,20 @@ namespace CarStuff
 
         public void SetDrifting(bool isDrifting)
         {
-            if (sfxAudioSource == null || driftLoop == null)
+            if (driftAudioSource == null || driftLoop == null)
             {
                 return;
             }
 
-            if (isDrifting && !sfxAudioSource.isPlaying)
+            if (isDrifting && !driftAudioSource.isPlaying)
             {
-                sfxAudioSource.clip = driftLoop;
-                sfxAudioSource.loop = true;
-                sfxAudioSource.Play();
+                driftAudioSource.clip = driftLoop;
+                driftAudioSource.loop = true;
+                driftAudioSource.Play();
             }
-            else if (!isDrifting && sfxAudioSource.isPlaying && sfxAudioSource.clip == driftLoop)
+            else if (!isDrifting && driftAudioSource.isPlaying)
             {
-                sfxAudioSource.Stop();
+                driftAudioSource.Stop();
             }
         }
 
@@ -309,6 +288,7 @@ namespace CarStuff
             if (musicAudioSource != null) musicAudioSource.Pause();
             if (engineAudioSource != null) engineAudioSource.Pause();
             if (sfxAudioSource != null) sfxAudioSource.Pause();
+            if (driftAudioSource != null) driftAudioSource.Pause();
         }
 
         public void ResumeAllAudio()
@@ -316,6 +296,7 @@ namespace CarStuff
             if (musicAudioSource != null) musicAudioSource.UnPause();
             if (engineAudioSource != null) engineAudioSource.UnPause();
             if (sfxAudioSource != null) sfxAudioSource.UnPause();
+            if (driftAudioSource != null) driftAudioSource.UnPause();
         }
 
         private void PlayOneShot(AudioClip clip)

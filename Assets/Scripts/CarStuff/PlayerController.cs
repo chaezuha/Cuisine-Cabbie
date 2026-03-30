@@ -21,6 +21,14 @@ namespace CarStuff
         [SerializeField] private float neutralFuelUseRate = 0.01f;
         [SerializeField, Range(0.9f, 1f)] private float neutralSpeedRetentionPerSecond = 0.98f;
         
+        [Header("Collision Fuel Loss")]
+        [SerializeField] private float lowCrashImpactThresholdMph = 5f;
+        [SerializeField] private float mediumCrashImpactThresholdMph = 12f;
+        [SerializeField] private float highCrashImpactThresholdMph = 22f;
+        [SerializeField] private float lowImpactFuelLoss = 10f;
+        [SerializeField] private float mediumImpactFuelLoss = 30f;
+        [SerializeField] private float highImpactFuelLoss = 60f;
+
         [Header("Fuel Economy")]
         [SerializeField] private bool fuelEconomyEnabled = true;
         [SerializeField] private float lowSpeedFuelMultiplier = 1.5f;
@@ -47,6 +55,8 @@ namespace CarStuff
         private float _shiftTimer = 0f;
         private bool _scrollShiftReady = true;
 
+        private const float MetersPerSecondToMph = 2.237f;
+
         private CarMovement _physics;
         private Gearbox _gearbox;
         private DeliveryTelemetry _telemetry;
@@ -72,6 +82,21 @@ namespace CarStuff
         public bool HasFuel()
         {
             return _currentFuel > 0f;
+        }
+
+        public float GetLowCrashThreshold()
+        {
+            return lowCrashImpactThresholdMph;
+        }
+
+        public float GetMediumCrashThreshold()
+        {
+            return mediumCrashImpactThresholdMph;
+        }
+
+        public float GetHighCrashThreshold()
+        {
+            return highCrashImpactThresholdMph;
         }
 
         private void ActivateControlV1()
@@ -395,11 +420,26 @@ namespace CarStuff
             if (collision.gameObject.CompareTag("Ramp"))
                 return;
 
-            float fuelBefore = _currentFuel;
+            var impactSpeedMph = collision.relativeVelocity.magnitude * MetersPerSecondToMph;
+            var fuelLost = 0f;
+            if (impactSpeedMph >= lowCrashImpactThresholdMph)
+            {
+                fuelLost = GetCollisionFuelLoss(impactSpeedMph);
+                ConsumeFuel(fuelLost);
+            }
+
             playerAudioController?.HandleCollision(collision);
             collisionCameraShake?.HandleCollision(collision);
-            float fuelLost = fuelBefore - _currentFuel;
             _telemetry?.OnCollision(fuelLost);
+        }
+
+        private float GetCollisionFuelLoss(float impactSpeedMph)
+        {
+            if (impactSpeedMph >= highCrashImpactThresholdMph)
+                return highImpactFuelLoss;
+            if (impactSpeedMph >= mediumCrashImpactThresholdMph)
+                return mediumImpactFuelLoss;
+            return lowImpactFuelLoss;
         }
 
         private float GetFuelEconomyMultiplier()
