@@ -17,7 +17,6 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI deliveryCounterText;
     [SerializeField] private TextMeshProUGUI packageListText;
     [SerializeField] private TextMeshProUGUI messageText;
-    [SerializeField] private TextMeshProUGUI gameOverText;
 
     [Header("Colors")]
     [SerializeField] private Color activeColor = Color.red;
@@ -27,6 +26,7 @@ public class PlayerUI : MonoBehaviour
     private CarMovement _carMovement;
     private PlayerController _playerController;
     private DeliveryBrain _deliveryBrain;
+    private GameOverPanel _gameOverPanel;
     
 
     private const float MetersPerSecondToMph = 2.237f;
@@ -52,6 +52,11 @@ public class PlayerUI : MonoBehaviour
         {
             _deliveryBrain = FindFirstObjectByType<DeliveryBrain>();
         }
+
+        if (_gameOverPanel == null)
+        {
+            _gameOverPanel = FindFirstObjectByType<GameOverPanel>();
+        }
     }
 
     void Update()
@@ -60,20 +65,28 @@ public class PlayerUI : MonoBehaviour
         UpdateSpeedText();
         UpdateBrakeText();
         UpdateDeliveryUI();
-        UpdateGameOverText();
+        UpdateGameOver();
     }
 
-    private void UpdateGameOverText()
+    private void UpdateGameOver()
     {
+        if (_gameOverPanel == null)
+        {
+            _gameOverPanel = FindFirstObjectByType<GameOverPanel>();
+        }
+        if (_playerController == null)
+        {
+            _playerController = FindFirstObjectByType<PlayerController>();
+        }
+        if (_gameOverPanel == null || _playerController == null) return;
+
         if (_playerController.GetFuel() <= 0)
         {
-            gameOverText.gameObject.SetActive(true);
-            gameOverText.text = "OUT OF FUEL!" + '\n' + "Press 'R' to restart";
-            gameOverText.color = Color.red;
+            _gameOverPanel.Show();
         }
-        else
+        else if (_gameOverPanel.IsShowing)
         {
-            gameOverText.gameObject.SetActive(false);
+            _gameOverPanel.Hide();
         }
     }
     private void UpdateGearText()

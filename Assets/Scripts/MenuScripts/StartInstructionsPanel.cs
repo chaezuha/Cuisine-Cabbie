@@ -15,6 +15,11 @@ public class StartInstructionsPanel : MonoBehaviour
 
     private static bool _hasShownThisSession;
 
+    public static void ResetForNewSession()
+    {
+        _hasShownThisSession = false;
+    }
+
     void Start()
     {
         if (!_hasShownThisSession)
