@@ -131,6 +131,8 @@ MonoBehaviour:
   waypointBrain: {fileID: 0}
   pickUpMechanics: {fileID: 0}
   dropOffId: 
+  circleOverride: -1
+  fuelOverride: -1
 --- !u!1 &5169973193708192086
 GameObject:
   m_ObjectHideFlags: 0

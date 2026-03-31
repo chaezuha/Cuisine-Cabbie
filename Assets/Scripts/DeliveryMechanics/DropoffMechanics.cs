@@ -19,12 +19,18 @@ namespace DeliveryMechanics
         private float _distanceFromDepot;
         private TMP_Text _text;
         private Vector3 _dropOffPos;
+        private Vector3 _dropOffRot;
         private Vector3 _pickUpPos;
         private float _distanceFromPickUpPos;
 
         public Vector3 GetPositon()
         {
             return _dropOffPos;
+        }
+
+        public Vector3 GetRotation()
+        {
+            return _dropOffRot;
         }
 
         public void SetWaypointActive(bool active)
@@ -44,6 +50,7 @@ namespace DeliveryMechanics
         private void Start()
         {
             //_pickUpPos = pickUpMechanics.GetPositon();
+            _dropOffRot = transform.eulerAngles;
             _distanceFromPickUpPos = Vector3.Distance(_dropOffPos, _pickUpPos);
             _text = GetComponentInChildren<TMP_Text>();
             _dropOffPos = transform.position;

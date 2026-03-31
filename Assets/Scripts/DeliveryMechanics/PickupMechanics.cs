@@ -10,6 +10,8 @@ namespace DeliveryMechanics
         private float _distanceFromPlayer;
         private TMP_Text _text;
         private Vector3 _pickUpPos;
+        private Vector3 _pickUpRot;
+        private GameObject _visualEffects;
         
         public Vector3 GetPositon()
         {
@@ -37,10 +39,16 @@ namespace DeliveryMechanics
             _waypointIsActive = active;
         }
 
+        public Vector3 GetRotation()
+        {
+            return _pickUpRot;
+        }
+
         private void Start()
         {
             _text = GetComponentInChildren<TMP_Text>();
             _pickUpPos = transform.position;
+            _pickUpRot = transform.rotation.eulerAngles;
             _waypointIsActive = false;
             waypointBrain = FindObjectOfType<WaypointBrain>();
             waypointBrain.SetPickUpPos(_pickUpPos);

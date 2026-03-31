@@ -8007,6 +8007,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeliveryBrain
   maxPackagesPerTrip: 3
+  particleEffects: {fileID: 443680391493688256, guid: 3a7befa5141e5494f8d0cff056dc431a, type: 3}
   maxRadius: 1200
   totalLayers: 6
   tutorialDropoffs:

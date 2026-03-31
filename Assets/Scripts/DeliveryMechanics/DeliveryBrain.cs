@@ -8,6 +8,7 @@ namespace DeliveryMechanics
     public class DeliveryBrain : MonoBehaviour
     {
         [Header("Settings")] [SerializeField] private int maxPackagesPerTrip = 3;
+        [SerializeField] private GameObject particleEffects;
         public readonly HashSet<DropoffMechanics> HeldPackages = new HashSet<DropoffMechanics>();
         private PickupMechanics _pickupMechanics;
         private PlayerAudioController _playerAudioController;
@@ -107,6 +108,7 @@ namespace DeliveryMechanics
                     HeldPackages.Add(pool[i]);
                 }
 
+                Instantiate(particleEffects, _pickupMechanics.GetPositon(), Quaternion.Euler(-90.0f, _pickupMechanics.GetRotation().y, _pickupMechanics.GetRotation().z));
                 _telemetry?.OnPickup();
                 _playerController?.RefillFuelToMax();
                 _playerAudioController?.PlayPickupSuccess();
@@ -114,6 +116,8 @@ namespace DeliveryMechanics
                 return;
             }
 
+            
+            // non tutorial pick ups
             Vector3 depotPos = _pickupMechanics.GetPositon();
             var pool2 = new List<DropoffMechanics>();
             foreach (var dropoff in _allDropOffs)
@@ -180,6 +184,7 @@ namespace DeliveryMechanics
                 HeldPackages.Add(pool2[i]);
             }
 
+            Instantiate(particleEffects, _pickupMechanics.GetPositon(), Quaternion.Euler(-90.0f, _pickupMechanics.GetRotation().y, _pickupMechanics.GetRotation().z));
             _telemetry?.OnPickup();
             _playerController?.RefillFuelToMax();
             _playerAudioController?.PlayPickupSuccess();
@@ -192,6 +197,8 @@ namespace DeliveryMechanics
             {
                 SetDeliveryCount(_deliveryCount + 1);
                 dropoff.SetWaypointActive(false);
+                
+                Instantiate(particleEffects,  dropoff.GetPositon(), Quaternion.Euler(-90.0f, dropoff.GetRotation().y, dropoff.GetRotation().z));
                 if (_pickupMechanics != null && _playerController != null)
                 {
                     float fuelOverride = dropoff.GetFuelOverride();
