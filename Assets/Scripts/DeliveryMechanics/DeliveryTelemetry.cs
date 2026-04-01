@@ -111,7 +111,7 @@ namespace DeliveryMechanics
             float maxFuel = _playerController != null ? _playerController.GetMaxFuel() : 1f;
             float currentFuel = _playerController != null ? _playerController.GetFuel() : 0f;
             float elapsed = Time.time - _legStartTime;
-            float fuelUsed = _legStartFuel - currentFuel;
+            float fuelUsed = Mathf.Max(0f, _legStartFuel - currentFuel);
 
             float legDistanceFeet = Vector3.Distance(_legStartPos, toPos) * MetersToFeet;
 
