@@ -9,10 +9,18 @@ namespace CarStuff
         [SerializeField] private AudioSource sfxAudioSource;
         [SerializeField] private AudioSource driftAudioSource;
         [SerializeField] private AudioSource musicAudioSource;
+        [SerializeField] private AudioSource lowFuelMusicAudioSource;
 
         [Header("Music")]
-        [SerializeField] private AudioClip gameMusic;
+        [SerializeField] private AudioClip gameMusicIntro;
+        [SerializeField] private AudioClip gameMusicLoop;
         [SerializeField] [Range(0f, 1f)] private float musicVolume = 0.5f;
+
+        [Header("Low Fuel Music")]
+        [SerializeField] private AudioClip lowFuelMusicLoop;
+        [SerializeField] [Range(0f, 1f)] private float lowFuelMusicVolume = 0.5f;
+        [SerializeField] [Range(0f, 1f)] private float lowFuelThreshold = 0.25f;
+        [SerializeField] private float musicFadeSpeed = 1f;
 
         [Header("Engine Loops")]
         [SerializeField] private AudioClip idleLoop;
@@ -23,7 +31,8 @@ namespace CarStuff
         [SerializeField] private AudioClip lowCrashSound;
         [SerializeField] private AudioClip mediumCrashSound;
         [SerializeField] private AudioClip highCrashSound;
-        [SerializeField] private AudioClip shiftGearSound;
+        [SerializeField] private AudioClip shiftGearUpSound;
+        [SerializeField] private AudioClip shiftGearDownSound;
         [SerializeField] private AudioClip reverseFailSound;
         [SerializeField] private AudioClip gearShiftFailSound;
 
@@ -35,6 +44,9 @@ namespace CarStuff
         [SerializeField] private AudioClip dropoffSound;
         [SerializeField] private AudioClip errorSound;
 
+        [Header("Volume")]
+        [SerializeField] [Range(0f, 1f)] private float engineLoopVolume = 1f;
+
         [Header("Tuning Specifics")]
         [SerializeField] private float crashSoundCooldown = 0.5f;
 
@@ -45,6 +57,9 @@ namespace CarStuff
         private PlayerController _playerController;
         private Gearbox _gearbox;
         private float _nextCrashSoundTime;
+        private bool _isPaused;
+        private bool _musicStarted;
+        private AudioSource _loopAudioSource;
 
         private void Awake()
         {
@@ -73,18 +88,22 @@ namespace CarStuff
         {
             SetEngineLoop(idleLoop);
 
-            if (musicAudioSource != null && gameMusic != null)
+            if (!PauseMenu.IsPaused)
             {
-                musicAudioSource.clip = gameMusic;
-                musicAudioSource.loop = true;
-                musicAudioSource.volume = musicVolume;
-                musicAudioSource.Play();
+                StartMusic();
             }
         }
 
         private void Update()
         {
             UpdateEngineLoop();
+            ApplyEngineLoopVolume();
+            UpdateLowFuelMusic();
+        }
+
+        private void ApplyEngineLoopVolume()
+        {
+            if (engineAudioSource != null) engineAudioSource.volume = engineLoopVolume;
         }
 
         public void HandleCollision(Collision collision)
@@ -184,6 +203,84 @@ namespace CarStuff
                    targetTransform.IsChildOf(contactTransform);
         }
 
+        public void StartMusic()
+        {
+            if (_musicStarted || musicAudioSource == null)
+            {
+                return;
+            }
+
+            _musicStarted = true;
+            musicAudioSource.volume = musicVolume;
+
+            if (gameMusicIntro != null && gameMusicLoop != null)
+            {
+                _loopAudioSource = gameObject.AddComponent<AudioSource>();
+                _loopAudioSource.clip = gameMusicLoop;
+                _loopAudioSource.loop = true;
+                _loopAudioSource.volume = musicVolume;
+                _loopAudioSource.playOnAwake = false;
+
+                musicAudioSource.clip = gameMusicIntro;
+                musicAudioSource.loop = false;
+                musicAudioSource.Play();
+
+                double introDuration = (double)gameMusicIntro.samples / gameMusicIntro.frequency;
+                _loopAudioSource.PlayScheduled(AudioSettings.dspTime + introDuration);
+            }
+            else if (gameMusicIntro != null)
+            {
+                musicAudioSource.clip = gameMusicIntro;
+                musicAudioSource.loop = false;
+                musicAudioSource.Play();
+            }
+            else if (gameMusicLoop != null)
+            {
+                musicAudioSource.clip = gameMusicLoop;
+                musicAudioSource.loop = true;
+                musicAudioSource.Play();
+            }
+
+            if (lowFuelMusicAudioSource != null && lowFuelMusicLoop != null)
+            {
+                lowFuelMusicAudioSource.clip = lowFuelMusicLoop;
+                lowFuelMusicAudioSource.loop = true;
+                lowFuelMusicAudioSource.volume = 0f;
+                lowFuelMusicAudioSource.Play();
+            }
+        }
+
+        private void UpdateLowFuelMusic()
+        {
+            if (_playerController == null || lowFuelMusicAudioSource == null || lowFuelMusicLoop == null)
+            {
+                return;
+            }
+
+            float fuelPercent = _playerController.GetFuel() / _playerController.GetMaxFuel();
+            bool isLowFuel = fuelPercent <= lowFuelThreshold && fuelPercent > 0f;
+            float fadeStep = musicFadeSpeed * Time.deltaTime;
+
+            if (isLowFuel)
+            {
+                lowFuelMusicAudioSource.volume = Mathf.MoveTowards(lowFuelMusicAudioSource.volume, lowFuelMusicVolume, fadeStep);
+                musicAudioSource.volume = Mathf.MoveTowards(musicAudioSource.volume, 0f, fadeStep);
+                if (_loopAudioSource != null)
+                {
+                    _loopAudioSource.volume = Mathf.MoveTowards(_loopAudioSource.volume, 0f, fadeStep);
+                }
+            }
+            else
+            {
+                lowFuelMusicAudioSource.volume = Mathf.MoveTowards(lowFuelMusicAudioSource.volume, 0f, fadeStep);
+                musicAudioSource.volume = Mathf.MoveTowards(musicAudioSource.volume, musicVolume, fadeStep);
+                if (_loopAudioSource != null)
+                {
+                    _loopAudioSource.volume = Mathf.MoveTowards(_loopAudioSource.volume, musicVolume, fadeStep);
+                }
+            }
+        }
+
         private void UpdateEngineLoop()
         {
             if (_playerController == null || _gearbox == null)
@@ -234,9 +331,9 @@ namespace CarStuff
             _currentLoop = clip;
         }
 
-        public void PlayGearShiftSuccess()
+        public void PlayGearShiftSuccess(int shiftDirection)
         {
-            PlayOneShot(shiftGearSound);
+            PlayOneShot(shiftDirection > 0 ? shiftGearUpSound : shiftGearDownSound);
         }
 
         public void PlayReverseFail()
@@ -285,7 +382,10 @@ namespace CarStuff
 
         public void PauseAllAudio()
         {
+            _isPaused = true;
             if (musicAudioSource != null) musicAudioSource.Pause();
+            if (_loopAudioSource != null) _loopAudioSource.Pause();
+            if (lowFuelMusicAudioSource != null) lowFuelMusicAudioSource.Pause();
             if (engineAudioSource != null) engineAudioSource.Pause();
             if (sfxAudioSource != null) sfxAudioSource.Pause();
             if (driftAudioSource != null) driftAudioSource.Pause();
@@ -293,7 +393,10 @@ namespace CarStuff
 
         public void ResumeAllAudio()
         {
+            _isPaused = false;
             if (musicAudioSource != null) musicAudioSource.UnPause();
+            if (_loopAudioSource != null) _loopAudioSource.UnPause();
+            if (lowFuelMusicAudioSource != null) lowFuelMusicAudioSource.UnPause();
             if (engineAudioSource != null) engineAudioSource.UnPause();
             if (sfxAudioSource != null) sfxAudioSource.UnPause();
             if (driftAudioSource != null) driftAudioSource.UnPause();

@@ -1,3 +1,4 @@
+using CarStuff;
 using UnityEngine;
 
 public class StartInstructionsPanel : MonoBehaviour
@@ -7,6 +8,7 @@ public class StartInstructionsPanel : MonoBehaviour
 
     [Header("Game References")]
     [SerializeField] private GameObject playerUI;
+    [SerializeField] private PlayerAudioController playerAudioController;
 
     [Header("Button SFX")]
     [SerializeField] private AudioSource sfxAudioSource;
@@ -74,5 +76,14 @@ public class StartInstructionsPanel : MonoBehaviour
         PauseMenu.IsPaused = false;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        if (playerAudioController == null)
+        {
+            playerAudioController = FindFirstObjectByType<PlayerAudioController>();
+        }
+        if (playerAudioController != null)
+        {
+            playerAudioController.StartMusic();
+        }
     }
 }

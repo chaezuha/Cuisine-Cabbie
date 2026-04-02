@@ -7,8 +7,11 @@ public class MenuScript : MonoBehaviour
 {
     [Header("Music")]
     [SerializeField] private AudioSource musicAudioSource;
-    [SerializeField] private AudioClip menuMusic;
+    [SerializeField] private AudioClip menuMusicIntro;
+    [SerializeField] private AudioClip menuMusicLoop;
     [SerializeField] [Range(0f, 1f)] private float musicVolume = 0.5f;
+
+    private AudioSource _loopAudioSource;
 
     [Header("Button SFX")]
     [SerializeField] private AudioSource sfxAudioSource;
@@ -17,11 +20,38 @@ public class MenuScript : MonoBehaviour
 
     private void Start()
     {
-        if (musicAudioSource != null && menuMusic != null)
+        if (musicAudioSource == null)
         {
-            musicAudioSource.clip = menuMusic;
+            return;
+        }
+
+        musicAudioSource.volume = musicVolume;
+
+        if (menuMusicIntro != null && menuMusicLoop != null)
+        {
+            _loopAudioSource = gameObject.AddComponent<AudioSource>();
+            _loopAudioSource.clip = menuMusicLoop;
+            _loopAudioSource.loop = true;
+            _loopAudioSource.volume = musicVolume;
+            _loopAudioSource.playOnAwake = false;
+
+            musicAudioSource.clip = menuMusicIntro;
+            musicAudioSource.loop = false;
+            musicAudioSource.Play();
+
+            double introDuration = (double)menuMusicIntro.samples / menuMusicIntro.frequency;
+            _loopAudioSource.PlayScheduled(AudioSettings.dspTime + introDuration);
+        }
+        else if (menuMusicIntro != null)
+        {
+            musicAudioSource.clip = menuMusicIntro;
+            musicAudioSource.loop = false;
+            musicAudioSource.Play();
+        }
+        else if (menuMusicLoop != null)
+        {
+            musicAudioSource.clip = menuMusicLoop;
             musicAudioSource.loop = true;
-            musicAudioSource.volume = musicVolume;
             musicAudioSource.Play();
         }
     }

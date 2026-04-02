@@ -353,7 +353,7 @@ namespace CarStuff
                 return false;
             }
 
-            playerAudioController?.PlayGearShiftSuccess();
+            playerAudioController?.PlayGearShiftSuccess(shiftDirection);
             return true;
         }
 

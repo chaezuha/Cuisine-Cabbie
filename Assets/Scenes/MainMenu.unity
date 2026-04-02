@@ -237,7 +237,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuScript
   musicAudioSource: {fileID: 440108495}
-  menuMusic: {fileID: 8300000, guid: b30e00a220a8f4793bd6ada4073a1eee, type: 3}
+  menuMusicIntro: {fileID: 8300000, guid: 6922d5cd05b8b4b509a207eba7b10edd, type: 3}
+  menuMusicLoop: {fileID: 8300000, guid: dbec6d36b2fab4f14a63bd1e0bc04337, type: 3}
   musicVolume: 0.5
   sfxAudioSource: {fileID: 1025712414}
   buttonHoverSound: {fileID: 8300000, guid: f4323e80d7cbe4399aff6e233cd7cdab, type: 3}
