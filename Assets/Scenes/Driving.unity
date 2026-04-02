@@ -11050,7 +11050,7 @@ MonoBehaviour:
   maxFuel: 1000
   dropoffRefuelAmount: 50
   dropoffDistanceMultiplier: 0.2
-  fuelUseRate: 0.4
+  fuelUseRate: 0.42
   coastingFuelUseRate: 0.2
   crawlFuelUseRate: 0.15
   neutralFuelUseRate: 0.01
