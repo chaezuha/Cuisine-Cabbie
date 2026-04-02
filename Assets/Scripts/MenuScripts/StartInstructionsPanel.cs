@@ -10,10 +10,11 @@ public class StartInstructionsPanel : MonoBehaviour
     [SerializeField] private GameObject playerUI;
     [SerializeField] private PlayerAudioController playerAudioController;
 
-    [Header("Button SFX")]
+    [Header("SFX")]
     [SerializeField] private AudioSource sfxAudioSource;
     [SerializeField] private AudioClip buttonHoverSound;
     [SerializeField] private AudioClip buttonSelectSound;
+    [SerializeField] private AudioClip carStartSound;
 
     private static bool _hasShownThisSession;
 
@@ -52,6 +53,12 @@ public class StartInstructionsPanel : MonoBehaviour
         PauseMenu.IsPaused = true;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+
+        if (sfxAudioSource != null && carStartSound != null)
+        {
+            sfxAudioSource.ignoreListenerPause = true;
+            sfxAudioSource.PlayOneShot(carStartSound);
+        }
     }
 
     public void PlayHoverSound()
