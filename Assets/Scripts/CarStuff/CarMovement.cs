@@ -68,7 +68,7 @@ namespace CarStuff
             _isDrifting = isDrifiting;
             if (isDrifiting == false)
             {
-                float maxGrip = 50.0f;
+                float maxGrip = 10.0f;
                 float seconds = 10.0f;
                 if (gripFactor < maxGrip)
                 {

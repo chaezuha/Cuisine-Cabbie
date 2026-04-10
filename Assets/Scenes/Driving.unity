@@ -31289,9 +31289,9 @@ MonoBehaviour:
   TargetOffset: {x: 0, y: 1.5, z: 0}
   TrackerSettings:
     BindingMode: 1
-    PositionDamping: {x: 3, y: 1, z: 0.5}
+    PositionDamping: {x: 4, y: 1, z: 0}
     AngularDampingMode: 0
-    RotationDamping: {x: 1, y: 1, z: 1}
+    RotationDamping: {x: 1, y: 2, z: 2}
     QuaternionDamping: 1
   OrbitStyle: 0
   Radius: 9
