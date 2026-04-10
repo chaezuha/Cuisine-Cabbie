@@ -44,22 +44,27 @@ namespace CarStuff
 
         public void ApplyBrake(bool brakeCondition)
         {
-            if (!brakeCondition)
+            if (IsGrounded())
             {
-                return;
-            }
-            
-            var speed = _rb.linearVelocity.magnitude;
-            
-            if (speed > 0.15f)
-            {
-                var direction = -_rb.linearVelocity.normalized;
-                _rb.AddForce(direction * brakeMultiplier, ForceMode.Acceleration);
-            }
-            else
-            {
-                _rb.linearVelocity = Vector3.zero;
-                _rb.angularVelocity *= 0.9f;
+
+
+                if (!brakeCondition)
+                {
+                    return;
+                }
+
+                var speed = _rb.linearVelocity.magnitude;
+
+                if (speed > 0.15f)
+                {
+                    var direction = -_rb.linearVelocity.normalized;
+                    _rb.AddForce(direction * brakeMultiplier, ForceMode.Acceleration);
+                }
+                else
+                {
+                    _rb.linearVelocity = Vector3.zero;
+                    _rb.angularVelocity *= 0.9f;
+                }
             }
         }
 
