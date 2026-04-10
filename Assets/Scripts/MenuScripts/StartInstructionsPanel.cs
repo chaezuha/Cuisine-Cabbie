@@ -4,11 +4,18 @@ using UnityEngine;
 public class StartInstructionsPanel : MonoBehaviour
 {
     [Header("Panel Reference")]
-    [SerializeField] private GameObject startInstructionsPanel;
+    [SerializeField] private GameObject instructionsManual;
+
+    [Header("Panels")]
+    [SerializeField] private GameObject[] panels;
+
+    [Header("Controls")]
+    [SerializeField] private KeyCode openKey = KeyCode.H;
 
     [Header("Game References")]
     [SerializeField] private GameObject playerUI;
     [SerializeField] private PlayerAudioController playerAudioController;
+    
 
     [Header("SFX")]
     [SerializeField] private AudioSource sfxAudioSource;
@@ -16,6 +23,7 @@ public class StartInstructionsPanel : MonoBehaviour
     [SerializeField] private AudioClip buttonSelectSound;
     [SerializeField] private AudioClip carStartSound;
 
+    private int _currentPanelIndex;
     private static bool _hasShownThisSession;
 
     public static void ResetForNewSession()
@@ -25,28 +33,76 @@ public class StartInstructionsPanel : MonoBehaviour
 
     void Start()
     {
+        for (int i = 0; i < panels.Length; i++)                                                                                                                                                                                                                                                                        
+            panels[i].SetActive(i == 0);                                                                                                                                                                                                                                                                                 
+        _currentPanelIndex = 0;                                                                                                                                                                                                                                                                                        
+
         if (!_hasShownThisSession)
         {
             _hasShownThisSession = true;
-            ShowPanel();
+            InitialShowPanel();
         }
         else
         {
-            startInstructionsPanel.SetActive(false);
+            instructionsManual.SetActive(false);
         }
     }
 
     void Update()
     {
-        if (startInstructionsPanel.activeSelf && Input.GetKeyDown(KeyCode.Escape))
+        if (instructionsManual.activeSelf && Input.GetKeyDown(KeyCode.Escape))
         {
+            Debug.Log("Closing here");
             ClosePanel();
+        }
+        else if (!instructionsManual.activeSelf && Input.GetKeyDown(openKey))
+        {
+            OpenPanel();
         }
     }
 
-    private void ShowPanel()
+    public void JumpToPanel(int index)
     {
-        startInstructionsPanel.SetActive(true);
+        Debug.Log("Jumping Panel Panel");
+
+        if (index < 0 || index >= panels.Length) return;
+
+        panels[_currentPanelIndex].SetActive(false);
+        _currentPanelIndex = index;
+        panels[_currentPanelIndex].SetActive(true);
+    }
+
+    public void ShowNextPanel()
+    {
+        Debug.Log("Next Panel");
+        if (_currentPanelIndex < panels.Length - 1)
+            JumpToPanel(_currentPanelIndex + 1);
+    }
+
+    public void ShowPreviousPanel()
+    {
+        if (_currentPanelIndex > 0)
+            JumpToPanel(_currentPanelIndex - 1);
+    }
+
+    public void OpenPanel()
+    {
+        for (int i = 0; i < panels.Length; i++)
+            panels[i].SetActive(i == 0);
+        _currentPanelIndex = 0;
+
+        instructionsManual.SetActive(true);
+        if (playerUI != null) playerUI.SetActive(false);
+        Time.timeScale = 0f;
+        AudioListener.pause = true;
+        PauseMenu.IsPaused = true;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+    private void InitialShowPanel()
+    {
+        instructionsManual.SetActive(true);
         if (playerUI != null) playerUI.SetActive(false);
         Time.timeScale = 0f;
         AudioListener.pause = true;
@@ -71,12 +127,14 @@ public class StartInstructionsPanel : MonoBehaviour
 
     public void ClosePanel()
     {
+        Debug.Log("Close Panel");
+
         if (sfxAudioSource != null && buttonSelectSound != null)
         {
             sfxAudioSource.PlayOneShot(buttonSelectSound);
         }
 
-        startInstructionsPanel.SetActive(false);
+        instructionsManual.SetActive(false);
         if (playerUI != null) playerUI.SetActive(true);
         Time.timeScale = 1f;
         AudioListener.pause = false;
