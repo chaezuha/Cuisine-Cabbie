@@ -14,6 +14,7 @@ namespace DeliveryMechanics
         [SerializeField] private int circleOverride = -1;
         [SerializeField] private float fuelOverride = -1f;
 
+        private GameObject _icon;
         private bool _waypointIsActive;
         private float _distanceFromPlayer;  
         private float _distanceFromDepot;
@@ -37,6 +38,7 @@ namespace DeliveryMechanics
         {
             _waypointIsActive = active;
             gameObject.SetActive(active);
+            _icon.SetActive(active);
         }
         
         private void Awake()
@@ -50,6 +52,9 @@ namespace DeliveryMechanics
         private void Start()
         {
             //_pickUpPos = pickUpMechanics.GetPositon();
+            _icon = transform.Find("Icon Canvas/Delivery Icon").gameObject; 
+            gameObject.SetActive(false);
+            _icon.SetActive(false);
             _dropOffRot = transform.eulerAngles;
             _distanceFromPickUpPos = Vector3.Distance(_dropOffPos, _pickUpPos);
             _text = GetComponentInChildren<TMP_Text>();
@@ -95,7 +100,7 @@ namespace DeliveryMechanics
             {
                 _distanceFromPlayer = waypointBrain.CalculateDistance(transform.position);
                 _text.gameObject.SetActive(true);
-                _text.color = Color.cyan;
+                _text.color = Color.white;
                 var roundedDistance = Mathf.RoundToInt(_distanceFromPlayer * 3.281f);
                 _text.text = dropOffId + '\n' + (roundedDistance) + " feet away";
                 _text.fontMaterial.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.2f);

@@ -21,6 +21,8 @@ public class WaypointTextDepot : MonoBehaviour
     void LateUpdate()
     {
         transform.forward = _camera.transform.forward;
-        transform.position = pickupMechanics.GetPositon();
+        var newPos = pickupMechanics.GetPositon();
+        newPos.y += 5;
+        transform.position = newPos;
     }
 }

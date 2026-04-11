@@ -37,6 +37,7 @@ namespace DeliveryMechanics
         public void SetWaypointActive(bool active)
         {
             _waypointIsActive = active;
+            gameObject.SetActive(active);
         }
 
         public Vector3 GetRotation()
@@ -61,7 +62,7 @@ namespace DeliveryMechanics
                 Debug.Log("working");
                 _distanceFromPlayer = waypointBrain.CalculateDistance(transform.position);
                 _text.gameObject.SetActive(true);
-                _text.color = Color.cyan;
+                _text.color = Color.white;
                 _text.fontMaterial.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.2f);
                 _text.fontMaterial.SetColor(ShaderUtilities.ID_OutlineColor, Color.black);
                 var roundedDistance = Mathf.RoundToInt(_distanceFromPlayer * 3.281f);

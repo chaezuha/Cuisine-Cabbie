@@ -20,7 +20,10 @@ namespace DeliveryMechanics
         void LateUpdate()
         {
             transform.forward = playerCamera.transform.forward;
-            transform.position = dropoffMechanics.GetPositon();
+            var newPos = dropoffMechanics.GetPositon();
+            newPos.y += 5;
+            transform.position = newPos;
+            
         }
     }
 }
