@@ -10,7 +10,8 @@ namespace DeliveryMechanics
         [Header("Settings")] [SerializeField] private int maxPackagesPerTrip = 3;
         [SerializeField] private GameObject particleEffects;
         public readonly HashSet<DropoffMechanics> HeldPackages = new HashSet<DropoffMechanics>();
-        private PickupMechanics _pickupMechanics;
+        private int _activePickupIndex;
+        private PickupMechanics ActivePickup => _allPickups[_activePickupIndex];
         private PlayerAudioController _playerAudioController;
         private PlayerController _playerController;
         private DeliveryTelemetry _telemetry;
@@ -23,6 +24,9 @@ namespace DeliveryMechanics
         [SerializeField] private float maxRadius = 1200f;
         [SerializeField] private int totalLayers = 6;
         private int _currentLayer = 0;
+
+        [Header("Pickup")]
+        [SerializeField] private PickupMechanics startingPickup;
 
         [Header("Tutorial Circle")]
         [SerializeField] private DropoffMechanics[] tutorialDropoffs;
@@ -52,8 +56,19 @@ namespace DeliveryMechanics
             _allDropOffs = FindObjectsByType<DropoffMechanics>(FindObjectsInactive.Include, FindObjectsSortMode.None);
             _allPickups = FindObjectsByType<PickupMechanics>(FindObjectsInactive.Include, FindObjectsSortMode.None); 
             
-            _pickupMechanics = FindObjectOfType<PickupMechanics>();
-            
+            _activePickupIndex = 0;
+            if (startingPickup != null)
+            {
+                for (int i = 0; i < _allPickups.Length; i++)
+                {
+                    if (_allPickups[i] == startingPickup)
+                    {
+                        _activePickupIndex = i;
+                        break;
+                    }
+                }
+            }
+
             _playerAudioController = FindFirstObjectByType<PlayerAudioController>();
             _playerController = GetComponent<PlayerController>();
             if (_playerController == null)
@@ -112,7 +127,7 @@ namespace DeliveryMechanics
                     HeldPackages.Add(pool[i]);
                 }
 
-                Instantiate(particleEffects, _pickupMechanics.GetPositon(), Quaternion.Euler(-90.0f, _pickupMechanics.GetRotation().y, _pickupMechanics.GetRotation().z));
+                Instantiate(particleEffects, ActivePickup.GetPositon(), Quaternion.Euler(-90.0f, ActivePickup.GetRotation().y, ActivePickup.GetRotation().z));
                 _telemetry?.OnPickup();
                 _playerController?.RefillFuelToMax();
                 _playerAudioController?.PlayPickupSuccess();
@@ -122,7 +137,7 @@ namespace DeliveryMechanics
 
             
             // non tutorial pick ups
-            Vector3 depotPos = _pickupMechanics.GetPositon();
+            Vector3 depotPos = ActivePickup.GetPositon();
             var pool2 = new List<DropoffMechanics>();
             foreach (var dropoff in _allDropOffs)
             {
@@ -188,7 +203,7 @@ namespace DeliveryMechanics
                 HeldPackages.Add(pool2[i]);
             }
 
-            Instantiate(particleEffects, _pickupMechanics.GetPositon(), Quaternion.Euler(-90.0f, _pickupMechanics.GetRotation().y, _pickupMechanics.GetRotation().z));
+            Instantiate(particleEffects, ActivePickup.GetPositon(), Quaternion.Euler(-90.0f, ActivePickup.GetRotation().y, ActivePickup.GetRotation().z));
             _telemetry?.OnPickup();
             _playerController?.RefillFuelToMax();
             _playerAudioController?.PlayPickupSuccess();
@@ -203,7 +218,7 @@ namespace DeliveryMechanics
                 dropoff.SetWaypointActive(false);
                 
                 Instantiate(particleEffects,  dropoff.GetPositon(), Quaternion.Euler(-90.0f, dropoff.GetRotation().y, dropoff.GetRotation().z));
-                if (_pickupMechanics != null && _playerController != null)
+                if (ActivePickup != null && _playerController != null)
                 {
                     float fuelOverride = dropoff.GetFuelOverride();
                     if (fuelOverride >= 0f)
@@ -212,16 +227,20 @@ namespace DeliveryMechanics
                     }
                     else
                     {
-                        var deliveryDistanceMeters = Vector3.Distance(_pickupMechanics.GetPositon(), dropoff.GetPositon());
+                        var deliveryDistanceMeters = Vector3.Distance(ActivePickup.GetPositon(), dropoff.GetPositon());
                         _playerController.RefuelFromDropoff(deliveryDistanceMeters);
                     }
                 }
                 _telemetry?.OnDropoff(dropoff.GetDropOffId(), dropoff.GetPositon());
                 _playerAudioController?.PlayDropoffSuccess();
                 ClearMessage();
-                if (HeldPackages.Count == 0 && _currentLayer < totalLayers - 1)
+                if (HeldPackages.Count == 0)
                 {
-                    _currentLayer++;
+                    if (_currentLayer < totalLayers - 1)
+                    {
+                        _currentLayer++;
+                    }
+                    SwitchToRandomPickup();
                 }
             }
             else
@@ -246,16 +265,22 @@ namespace DeliveryMechanics
             _currentMessage = msg;
         }
 
+        private void SwitchToRandomPickup()
+        {
+            if (_allPickups.Length <= 1) return;
+            _allPickups[_activePickupIndex].SetWaypointActive(false);
+            int newIndex;
+            do
+            {
+                newIndex = Random.Range(0, _allPickups.Length);
+            } while (newIndex == _activePickupIndex);
+            _activePickupIndex = newIndex;
+        }
+
         private void Update()
         {
-            if (HeldPackages.Count != 0)
-            {
-                _pickupMechanics.SetWaypointActive(false);
-            }
-            else
-            {
-                _pickupMechanics.SetWaypointActive(true);
-            }
+            bool showActive = HeldPackages.Count == 0;
+            ActivePickup.SetWaypointActive(showActive);
         }
     }
 }

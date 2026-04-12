@@ -19,6 +19,7 @@ namespace DeliveryMechanics
         
         void LateUpdate()
         {
+            if (dropoffMechanics == null) return;
             transform.forward = playerCamera.transform.forward;
             var newPos = dropoffMechanics.GetPositon();
             newPos.y += 5;

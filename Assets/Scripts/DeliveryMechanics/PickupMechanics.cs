@@ -52,7 +52,7 @@ namespace DeliveryMechanics
             _pickUpRot = transform.rotation.eulerAngles;
             _waypointIsActive = false;
             waypointBrain = FindObjectOfType<WaypointBrain>();
-            waypointBrain.SetPickUpPos(_pickUpPos);
+            gameObject.SetActive(false);
         }
         
         private void Update()
