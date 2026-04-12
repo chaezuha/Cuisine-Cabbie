@@ -15,6 +15,7 @@ namespace DeliveryMechanics
         private PlayerController _playerController;
         private DeliveryTelemetry _telemetry;
         private DropoffMechanics[] _allDropOffs;
+        private PickupMechanics[]  _allPickups;
         private int _deliveryCount;
         private string _currentMessage;
         
@@ -48,8 +49,11 @@ namespace DeliveryMechanics
 
         void Start()
         {
-            _allDropOffs = FindObjectsByType<DropoffMechanics>(FindObjectsSortMode.None);
+            _allDropOffs = FindObjectsByType<DropoffMechanics>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+            _allPickups = FindObjectsByType<PickupMechanics>(FindObjectsInactive.Include, FindObjectsSortMode.None); 
+            
             _pickupMechanics = FindObjectOfType<PickupMechanics>();
+            
             _playerAudioController = FindFirstObjectByType<PlayerAudioController>();
             _playerController = GetComponent<PlayerController>();
             if (_playerController == null)
