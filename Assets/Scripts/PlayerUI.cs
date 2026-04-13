@@ -12,6 +12,9 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI reverseText;
     [SerializeField] private TextMeshProUGUI speedText;
     [SerializeField] private TextMeshProUGUI brakeText;
+    [SerializeField] private GameObject reverseSprite;
+    [SerializeField] private GameObject neutralSprite;
+    [SerializeField] private GameObject driveSprite;
 
     [Header("Delivery UI")]
     [SerializeField] private TextMeshProUGUI deliveryCounterText;
@@ -109,18 +112,30 @@ public class PlayerUI : MonoBehaviour
             neutralText.gameObject.SetActive(true);
             driveText.gameObject.SetActive(false);
             reverseText.gameObject.SetActive(false);
+            
+            reverseSprite.gameObject.SetActive(false);
+            neutralSprite.gameObject.SetActive(true);
+            driveSprite.gameObject.SetActive(false);
         }
         else if (gearType == 1)
         {
             neutralText.gameObject.SetActive(false);
             driveText.gameObject.SetActive(true);
             reverseText.gameObject.SetActive(false);
+            
+            reverseSprite.gameObject.SetActive(false);
+            neutralSprite.gameObject.SetActive(false);
+            driveSprite.gameObject.SetActive(true);
         }
         else if (gearType == -1)
         {
             neutralText.gameObject.SetActive(false);
             driveText.gameObject.SetActive(false);
             reverseText.gameObject.SetActive(true);
+            
+            reverseSprite.gameObject.SetActive(true);
+            neutralSprite.gameObject.SetActive(false);
+            driveSprite.gameObject.SetActive(false);
         }
     }
 
