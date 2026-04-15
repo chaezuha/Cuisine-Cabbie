@@ -14,11 +14,12 @@ namespace DeliveryMechanics
 
         private GameObject _icon;
         private bool _waypointIsActive;
-        private float _distanceFromPlayer;  
+        private float _distanceFromPlayer;
         private float _distanceFromDepot;
         private TMP_Text _text;
         private Vector3 _dropOffPos;
         private Vector3 _dropOffRot;
+        private ScreenWaypointIndicator _indicator;
 
         public Vector3 GetPositon()
         {
@@ -35,6 +36,8 @@ namespace DeliveryMechanics
             _waypointIsActive = active;
             gameObject.SetActive(active);
             _icon.SetActive(active);
+            if (_indicator != null)
+                _indicator.gameObject.SetActive(active);
         }
         
         private void Awake()
@@ -48,13 +51,20 @@ namespace DeliveryMechanics
         private void Start()
         {
             _icon = transform.Find("Icon Canvas/Delivery Icon").gameObject;
-            gameObject.SetActive(false);
-            _icon.SetActive(false);
             _dropOffRot = transform.eulerAngles;
-            _text = GetComponentInChildren<TMP_Text>();
             _dropOffPos = transform.position;
             _waypointIsActive = false;
             waypointBrain = FindObjectOfType<WaypointBrain>();
+
+            _indicator = ScreenWaypointIndicator.Create(Camera.main);
+            if (_indicator != null)
+            {
+                _text = _indicator.Text;
+                _indicator.gameObject.SetActive(false);
+            }
+
+            gameObject.SetActive(false);
+            _icon.SetActive(false);
         }
         
         private void OnTriggerEnter(Collider other)
@@ -90,19 +100,17 @@ namespace DeliveryMechanics
         
         private void Update()
         {
+            if (_indicator == null) return;
+
             if (_waypointIsActive)
             {
                 _distanceFromPlayer = waypointBrain.CalculateDistance(transform.position);
-                _text.gameObject.SetActive(true);
+                _indicator.SetWorldTarget(_dropOffPos);
                 _text.color = Color.white;
                 var roundedDistance = Mathf.RoundToInt(_distanceFromPlayer * 3.281f);
                 _text.text = dropOffId + '\n' + (roundedDistance) + " feet away";
-                _text.fontMaterial.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.2f);
+                _text.fontMaterial.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.35f);
                 _text.fontMaterial.SetColor(ShaderUtilities.ID_OutlineColor, Color.black);
-            }
-            else
-            {
-                _text.gameObject.SetActive(false);
             }
         }
     }

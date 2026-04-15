@@ -37406,25 +37406,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1166182473976476573, guid: adbbb12b0508e4c99bb4f0c3ba5ccf37, type: 3}
   m_PrefabInstance: {fileID: 1527160701}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1533949791 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5169973193708192086, guid: 322813ad237f14b6796ba94a6f57cb31, type: 3}
-  m_PrefabInstance: {fileID: 1686310026}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1533949796
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1533949791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0677e57970254079a6698df59fd5a8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WaypointTextDepot
-  _camera: {fileID: 0}
-  pickupMechanics: {fileID: 0}
 --- !u!1001 &1534283530
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40204,6 +40185,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 929286715417069451, guid: 322813ad237f14b6796ba94a6f57cb31, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1316134982903479275, guid: 322813ad237f14b6796ba94a6f57cb31, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -40264,12 +40249,68 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5665196434504390544, guid: 322813ad237f14b6796ba94a6f57cb31, type: 3}
+      propertyPath: m_RenderMode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6454135690368683323, guid: 322813ad237f14b6796ba94a6f57cb31, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7674447592887337055, guid: 322813ad237f14b6796ba94a6f57cb31, type: 3}
       propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8532059983596408999, guid: 322813ad237f14b6796ba94a6f57cb31, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8532059983596408999, guid: 322813ad237f14b6796ba94a6f57cb31, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8532059983596408999, guid: 322813ad237f14b6796ba94a6f57cb31, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8532059983596408999, guid: 322813ad237f14b6796ba94a6f57cb31, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8532059983596408999, guid: 322813ad237f14b6796ba94a6f57cb31, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8532059983596408999, guid: 322813ad237f14b6796ba94a6f57cb31, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8532059983596408999, guid: 322813ad237f14b6796ba94a6f57cb31, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8532059983596408999, guid: 322813ad237f14b6796ba94a6f57cb31, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8532059983596408999, guid: 322813ad237f14b6796ba94a6f57cb31, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8532059983596408999, guid: 322813ad237f14b6796ba94a6f57cb31, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8532059983596408999, guid: 322813ad237f14b6796ba94a6f57cb31, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8532059983596408999, guid: 322813ad237f14b6796ba94a6f57cb31, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8532059983596408999, guid: 322813ad237f14b6796ba94a6f57cb31, type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9052073145483230099, guid: 322813ad237f14b6796ba94a6f57cb31, type: 3}
@@ -40281,13 +40322,7 @@ PrefabInstance:
     - {fileID: 1823315068294096531, guid: 322813ad237f14b6796ba94a6f57cb31, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7674447592887337055, guid: 322813ad237f14b6796ba94a6f57cb31, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1886046278}
-    - targetCorrespondingSourceObject: {fileID: 5169973193708192086, guid: 322813ad237f14b6796ba94a6f57cb31, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1533949796}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 322813ad237f14b6796ba94a6f57cb31, type: 3}
 --- !u!4 &1692712201 stripped
 Transform:
@@ -44797,25 +44832,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: adbbb12b0508e4c99bb4f0c3ba5ccf37, type: 3}
---- !u!1 &1886046272 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7674447592887337055, guid: 322813ad237f14b6796ba94a6f57cb31, type: 3}
-  m_PrefabInstance: {fileID: 1686310026}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1886046278
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1886046272}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0677e57970254079a6698df59fd5a8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WaypointTextDepot
-  _camera: {fileID: 0}
-  pickupMechanics: {fileID: 0}
 --- !u!1 &1887245200
 GameObject:
   m_ObjectHideFlags: 0
