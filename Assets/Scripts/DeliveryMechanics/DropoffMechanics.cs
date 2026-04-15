@@ -7,12 +7,15 @@ namespace DeliveryMechanics
     {
         [SerializeField] private WaypointBrain waypointBrain;
         [SerializeField] private string dropOffId;
+        [Header("Minimap Icon")]
+        [SerializeField] private Sprite minimapIconSprite;
+        [SerializeField] private float minimapIconSize = 30f;
+        [SerializeField] private Color minimapIconTint = Color.white;
 
         [Header("Overrides")]
         [SerializeField] private int circleOverride = -1;
         [SerializeField] private float fuelOverride = -1f;
 
-        private GameObject _icon;
         private bool _waypointIsActive;
         private float _distanceFromPlayer;
         private float _distanceFromDepot;
@@ -20,6 +23,7 @@ namespace DeliveryMechanics
         private Vector3 _dropOffPos;
         private Vector3 _dropOffRot;
         private ScreenWaypointIndicator _indicator;
+        private MinimapIconIndicator _minimapIcon;
 
         public Vector3 GetPositon()
         {
@@ -35,9 +39,10 @@ namespace DeliveryMechanics
         {
             _waypointIsActive = active;
             gameObject.SetActive(active);
-            _icon.SetActive(active);
             if (_indicator != null)
                 _indicator.gameObject.SetActive(active);
+            if (_minimapIcon != null)
+                _minimapIcon.gameObject.SetActive(active);
         }
         
         private void Awake()
@@ -50,7 +55,6 @@ namespace DeliveryMechanics
 
         private void Start()
         {
-            _icon = transform.Find("Icon Canvas/Delivery Icon").gameObject;
             _dropOffRot = transform.eulerAngles;
             _dropOffPos = transform.position;
             _waypointIsActive = false;
@@ -63,8 +67,15 @@ namespace DeliveryMechanics
                 _indicator.gameObject.SetActive(false);
             }
 
+            var minimapCam = GameObject.Find("Mini Map Camera");
+            if (minimapCam != null)
+            {
+                _minimapIcon = MinimapIconIndicator.Create(minimapCam.GetComponent<Camera>(), minimapIconSprite, minimapIconSize, minimapIconTint);
+                if (_minimapIcon != null)
+                    _minimapIcon.gameObject.SetActive(false);
+            }
+
             gameObject.SetActive(false);
-            _icon.SetActive(false);
         }
         
         private void OnTriggerEnter(Collider other)
@@ -106,6 +117,8 @@ namespace DeliveryMechanics
             {
                 _distanceFromPlayer = waypointBrain.CalculateDistance(transform.position);
                 _indicator.SetWorldTarget(_dropOffPos);
+                if (_minimapIcon != null)
+                    _minimapIcon.SetWorldTarget(_dropOffPos);
                 _text.color = Color.white;
                 var roundedDistance = Mathf.RoundToInt(_distanceFromPlayer * 3.281f);
                 _text.text = dropOffId + '\n' + (roundedDistance) + " feet away";
