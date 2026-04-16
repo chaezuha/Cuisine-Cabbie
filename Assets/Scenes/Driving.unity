@@ -5622,7 +5622,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0.00048828125, y: 73.286224}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 400, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &303234556
 MonoBehaviour:
@@ -5644,7 +5644,20 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Deliver!
+  m_text: 'Objectives:
+
+    You will pick up packages at various depots
+
+
+    You
+    will be given a set of places to deliver to
+
+
+    Run out of gas and you are
+    fired!
+
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7358,7 +7371,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0.00036621094, y: 73.286224}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 400, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &391138648
 MonoBehaviour:
@@ -7380,7 +7393,16 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: It's WASD
+  m_text: 'Driving Controls"
+
+    W: Step on the pedal
+
+
+    S: Brake (NOT REVERSE)
+
+
+    A/D:
+    Steer left/right'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -14305,9 +14327,9 @@ MonoBehaviour:
   highCrashSound: {fileID: 8300000, guid: c5864aad9a4b949088f865bb1cb69737, type: 3}
   shiftGearUpSound: {fileID: 8300000, guid: a991c9b46660646dba01d355350c4905, type: 3}
   shiftGearDownSound: {fileID: 8300000, guid: a5f946ff40e0d44aa9300395539737a9, type: 3}
-  reverseFailSound: {fileID: 8300000, guid: 26bad5a6e6bbf4c4795471a561be0265, type: 3}
+  reverseFailSound: {fileID: 8300000, guid: fc33654345de94fd6abd70286f32881d, type: 3}
   gearShiftFailSound: {fileID: 8300000, guid: fc33654345de94fd6abd70286f32881d, type: 3}
-  driftLoop: {fileID: 8300000, guid: 86b40958bac384f4e90610eb4c1302ee, type: 3}
+  driftLoop: {fileID: 8300000, guid: 2e1c59c601b2f41429345468c0539e69, type: 3}
   pickupSound: {fileID: 8300000, guid: 25fa20f0dab5d4e3f9f4a3f16d243f96, type: 3}
   dropoffSound: {fileID: 8300000, guid: 66f880132474d4297b453c92680296f1, type: 3}
   errorSound: {fileID: 8300000, guid: 6900bfb8d649044749b0379e8e4c399d, type: 3}
@@ -29842,8 +29864,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.00024414062, y: 73.286224}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 0.00024414062, y: 169.55084}
+  m_SizeDelta: {x: 400, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1197211183
 MonoBehaviour:
@@ -29865,7 +29887,20 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: hold s and scroll wheel
+  m_text: 'Gear Shifting:
+
+    Hold Space + Steer: Drift
+
+
+    Hold S + Scroll Up:
+    Shift Gear Up
+
+
+    Hold S + Scroll Down: Shift Gear Down
+
+
+    *holding s is
+    the same thing as braking!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -37071,8 +37106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0677e57970254079a6698df59fd5a8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaypointTextDepot
-  _camera: {fileID: 0}
-  pickupMechanics: {fileID: 0}
 --- !u!1001 &1518977120
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43511,7 +43544,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0.00048828125, y: 73.286224}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 400, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1841885058
 MonoBehaviour:
@@ -43533,7 +43566,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Hold Space
+  m_text: 'Drifting Controls:
+
+    Hold Space to drift (helpful around tight corners!)'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -46131,6 +46166,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeliveryMechanics.PickupMechanics
   waypointBrain: {fileID: 0}
+  minimapIconSprite: {fileID: 0}
+  minimapIconSize: 30
+  minimapIconTint: {r: 1, g: 1, b: 1, a: 1}
 --- !u!65 &1944382783
 BoxCollider:
   m_ObjectHideFlags: 0
