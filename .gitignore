@@ -40,6 +40,7 @@ sysinfo.txt
 *.bakingset
 *.lightingdata
 *.ght
+Lightmap-*
 
 # Lightmaps
 /Assets/**/*_Lightmap*.exr
@@ -56,6 +57,23 @@ sysinfo.txt
 /Assets/**/*.apv
 /Assets/**/*ProbeVolumeBakingSet*
 /Assets/**/*ProbeVolumeScenarios*
+
+# Adaptive Probe Volumes (APV) / Baking Sets
+*Baking Set*.bytes
+*Baking Set*.bytes.meta
+*Baking Set*.bakingset
+*Baking Set*.bakingset.meta
+*.CellBricksData.bytes
+*.CellSharedData.bytes
+*.CellSupportData.bytes
+*.CellData.bytes
+*.CellOptionalData.bytes
+*.CellProbeOcclusionData.bytes
+**/*.meta
+
+# Lighting Data
+LightingData.asset
+LightingData.asset.meta
 
 # GI Cache (already outside project but just in case)
 /GiCache/
