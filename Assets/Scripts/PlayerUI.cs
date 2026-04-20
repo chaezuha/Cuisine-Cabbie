@@ -184,11 +184,15 @@ public class PlayerUI : MonoBehaviour
                 var names = new List<string>();
                 foreach (var dropoff in _deliveryBrain.HeldPackages)
                 {
-                    names.Add("Package for " + dropoff.GetDropOffId());
+                    names.Add(dropoff.GetDropOffId());
                 }
 
                 names.Sort();
-                packageListText.text = string.Join("\n", names);
+                for (int i = 0; i < names.Count; i++)
+                {
+                    names[i] = "#" + (i + 1) + ": " + names[i];
+                }
+                packageListText.text = string.Join("\n\n", names);
             }
         }
 
