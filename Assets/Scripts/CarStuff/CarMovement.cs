@@ -38,6 +38,9 @@ namespace CarStuff
 
         private float _distanceToGround = 1.5f;
         private const float MetersPerSecondToMph = 2.237f;
+        private const float MinGroundNormalY = 0.5f;
+        private const float MaxTiltAngle = 70f;
+        [SerializeField] private float tiltCorrectionSpeed = 5f;
 
         private Rigidbody _rb;
         private bool _isDrifting;
@@ -225,6 +228,9 @@ namespace CarStuff
 
         public bool IsGrounded()
         {
+            if (Vector3.Dot(transform.up, Vector3.up) < MinGroundNormalY)
+                return false;
+
             var hasValidWheelRef = false;
             if (wheelGroundChecks != null && wheelGroundChecks.Length > 0)
             {
@@ -261,9 +267,10 @@ namespace CarStuff
         void FixedUpdate()
         {
             _distanceToGround = restLength + 0.4f;
+            var upright = Vector3.Dot(transform.up, Vector3.up) >= MinGroundNormalY;
             foreach (var wheel in wheelGroundChecks)
             {
-                if (Physics.Raycast(wheel.position, -transform.up, out var hit, restLength))
+                if (upright && Physics.Raycast(wheel.position, -transform.up, out var hit, restLength))
                 {
                     float compression = 1f - (hit.distance / restLength);
                     float springForce = compression * springStrength;
@@ -282,9 +289,27 @@ namespace CarStuff
                 AccountForGrip();
             }
             
+            ClampTilt();
+
             var speed = _rb.linearVelocity.magnitude;
             orbitalFollow.HorizontalAxis.Recentering.Enabled = speed > 1.0f;
             orbitalFollow.VerticalAxis.Recentering.Enabled = speed > 1.0f;
+        }
+
+        private void ClampTilt()
+        {
+            var euler = transform.eulerAngles;
+            var pitch = euler.x > 180f ? euler.x - 360f : euler.x;
+            var roll = euler.z > 180f ? euler.z - 360f : euler.z;
+
+            var clampedPitch = Mathf.Clamp(pitch, -MaxTiltAngle, MaxTiltAngle);
+            var clampedRoll = Mathf.Clamp(roll, -MaxTiltAngle, MaxTiltAngle);
+
+            if (!Mathf.Approximately(pitch, clampedPitch) || !Mathf.Approximately(roll, clampedRoll))
+            {
+                var targetRotation = Quaternion.Euler(clampedPitch, euler.y, clampedRoll);
+                _rb.MoveRotation(Quaternion.Slerp(_rb.rotation, targetRotation, tiltCorrectionSpeed * Time.fixedDeltaTime));
+            }
         }
 
         //idk the term but its like car crawl forward/reverse slowly when on drive/reverse and not pressing gas
