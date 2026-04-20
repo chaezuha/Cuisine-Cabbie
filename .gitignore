@@ -34,3 +34,28 @@ sysinfo.txt
 *.aab
 *.exe
 .idea/
+
+# Unity Baked Lighting
+/[Ll]ibrary/
+*.bakingset
+*.lightingdata
+*.ght
+
+# Lightmaps
+/Assets/**/*_Lightmap*.exr
+/Assets/**/*_Lightmap*.png
+/Assets/**/*_LightingData*
+/Assets/**/*.lighting
+
+# Light Probes & GI
+/Assets/**/*LightProbes*
+/Assets/**/*ReflectionProbe*
+/Assets/**/*.giparams
+
+# Adaptive Probe Volumes (APV)
+/Assets/**/*.apv
+/Assets/**/*ProbeVolumeBakingSet*
+/Assets/**/*ProbeVolumeScenarios*
+
+# GI Cache (already outside project but just in case)
+/GiCache/
