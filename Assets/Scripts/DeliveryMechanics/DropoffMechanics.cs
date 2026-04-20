@@ -113,6 +113,16 @@ namespace DeliveryMechanics
         {
             if (_indicator == null) return;
 
+            if (PauseMenu.IsPaused)
+            {
+                _indicator.gameObject.SetActive(false);
+                return;
+            }
+            else if (_waypointIsActive)
+            {
+                _indicator.gameObject.SetActive(true);
+            }
+
             if (_waypointIsActive)
             {
                 _distanceFromPlayer = waypointBrain.CalculateDistance(transform.position);
