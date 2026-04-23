@@ -14,13 +14,13 @@ namespace CarStuff
         [Header("Music")]
         [SerializeField] private AudioClip gameMusicIntro;
         [SerializeField] private AudioClip gameMusicLoop;
-        [SerializeField] [Range(0f, 1f)] private float musicVolume = 0.5f;
+        [SerializeField] [Range(0f, 1f)] private float musicVolume = 0.8f;
 
         [Header("Low Fuel Music")]
         [SerializeField] private AudioClip lowFuelMusicLoop;
         [SerializeField] [Range(0f, 1f)] private float lowFuelMusicVolume = 0.5f;
         [SerializeField] [Range(0f, 1f)] private float lowFuelThreshold = 0.25f;
-        [SerializeField] private float musicFadeSpeed = 1f;
+        [SerializeField] private float musicFadeSpeed = 0.5f;
 
         [Header("Engine Loops")]
         [SerializeField] private AudioClip idleLoop;
@@ -226,7 +226,15 @@ namespace CarStuff
                 musicAudioSource.Play();
 
                 double introDuration = (double)gameMusicIntro.samples / gameMusicIntro.frequency;
-                _loopAudioSource.PlayScheduled(AudioSettings.dspTime + introDuration);
+                _loopAudioSource.PlayScheduled(AudioSettings.dspTime + introDuration + 0.64);
+		
+		if (lowFuelMusicAudioSource != null && lowFuelMusicLoop != null)
+		{
+			lowFuelMusicAudioSource.clip = lowFuelMusicLoop;
+			lowFuelMusicAudioSource.loop = true;
+			lowFuelMusicAudioSource.volume = 0f;
+			lowFuelMusicAudioSource.PlayScheduled(AudioSettings.dspTime + introDuration);
+		}
             }
             else if (gameMusicIntro != null)
             {
@@ -264,10 +272,10 @@ namespace CarStuff
             if (isLowFuel)
             {
                 lowFuelMusicAudioSource.volume = Mathf.MoveTowards(lowFuelMusicAudioSource.volume, lowFuelMusicVolume, fadeStep);
-                musicAudioSource.volume = Mathf.MoveTowards(musicAudioSource.volume, 0f, fadeStep);
+                musicAudioSource.volume = Mathf.MoveTowards(musicAudioSource.volume, 0.25f, fadeStep);
                 if (_loopAudioSource != null)
                 {
-                    _loopAudioSource.volume = Mathf.MoveTowards(_loopAudioSource.volume, 0f, fadeStep);
+                    _loopAudioSource.volume = Mathf.MoveTowards(_loopAudioSource.volume, 0.25f, fadeStep);
                 }
             }
             else
