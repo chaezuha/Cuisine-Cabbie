@@ -9,6 +9,7 @@ public class PauseMenu : MonoBehaviour
     public GameObject instructionsPanel;
     public GameObject optionsPanel;
     public GameObject playerUI;
+    [SerializeField] private GameOverPanel gameOverPanel;
     public static bool IsPaused;
 
     [Header("Button SFX")]
@@ -37,6 +38,8 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
+        if (gameOverPanel != null && gameOverPanel.IsShowing) return;
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (optionsPanel.activeSelf)

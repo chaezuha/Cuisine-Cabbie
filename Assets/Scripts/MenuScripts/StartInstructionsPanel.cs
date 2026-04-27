@@ -15,6 +15,7 @@ public class StartInstructionsPanel : MonoBehaviour
     [Header("Game References")]
     [SerializeField] private GameObject playerUI;
     [SerializeField] private PlayerAudioController playerAudioController;
+    [SerializeField] private GameOverPanel gameOverPanel;
     
 
     [Header("SFX")]
@@ -55,7 +56,10 @@ public class StartInstructionsPanel : MonoBehaviour
             Debug.Log("Closing here");
             ClosePanel();
         }
-        else if (!instructionsManual.activeSelf && Input.GetKeyDown(openKey))
+        else if (!instructionsManual.activeSelf
+                 && !PauseMenu.IsPaused
+                 && (gameOverPanel == null || !gameOverPanel.IsShowing)
+                 && Input.GetKeyDown(openKey))
         {
             OpenPanel();
         }
