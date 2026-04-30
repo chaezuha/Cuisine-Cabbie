@@ -240,7 +240,13 @@ namespace DeliveryMechanics
                     {
                         _currentLayer++;
                     }
+                    var lastDropoffPos = dropoff.GetPositon();
                     SwitchToRandomPickup();
+                    if (ActivePickup != null && _playerController != null)
+                    {
+                        var nextLegMeters = Vector3.Distance(lastDropoffPos, ActivePickup.GetPositon());
+                        _playerController.ApplyEndOfTripBonus(nextLegMeters);
+                    }
                 }
             }
             else
