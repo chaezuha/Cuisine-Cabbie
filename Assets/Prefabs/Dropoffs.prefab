@@ -347,8 +347,29 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 709403ebb2f6d4d6c858b99e697c9431, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7450632313307081764}
   m_SourcePrefab: {fileID: 100100000, guid: 709403ebb2f6d4d6c858b99e697c9431, type: 3}
+--- !u!1 &3556151254922111820 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 709403ebb2f6d4d6c858b99e697c9431, type: 3}
+  m_PrefabInstance: {fileID: 4438461708716742173}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7450632313307081764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3556151254922111820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52d033ae45b614db38d8322faa957aa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Rotator
+  speed: 60
 --- !u!4 &4184455472612471286 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 709403ebb2f6d4d6c858b99e697c9431, type: 3}
