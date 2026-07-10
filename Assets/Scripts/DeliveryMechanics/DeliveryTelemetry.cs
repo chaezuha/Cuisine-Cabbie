@@ -63,9 +63,20 @@ namespace DeliveryMechanics
             }
         }
 
+        private Vector3 GetDepotPosition()
+        {
+            var activePickup = _deliveryBrain != null ? _deliveryBrain.GetActivePickup() : null;
+            if (activePickup != null)
+            {
+                return activePickup.GetPositon();
+            }
+
+            return _pickupMechanics != null ? _pickupMechanics.GetPositon() : Vector3.zero;
+        }
+
         public void OnPickup()
         {
-            Vector3 depotPos = _pickupMechanics != null ? _pickupMechanics.GetPositon() : Vector3.zero;
+            Vector3 depotPos = GetDepotPosition();
 
             if (_tracking)
             {
@@ -115,7 +126,7 @@ namespace DeliveryMechanics
 
             float legDistanceFeet = Vector3.Distance(_legStartPos, toPos) * MetersToFeet;
 
-            Vector3 depotPos = _pickupMechanics != null ? _pickupMechanics.GetPositon() : Vector3.zero;
+            Vector3 depotPos = GetDepotPosition();
             float depotDistanceFeet = Vector3.Distance(depotPos, toPos) * MetersToFeet;
 
             float avgSpeedMph = elapsed > 0f ? (legDistanceFeet / elapsed) * FeetPerSecondToMph : 0f;

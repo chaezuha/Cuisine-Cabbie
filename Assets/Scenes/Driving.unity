@@ -59238,7 +59238,6 @@ GameObject:
   - component: {fileID: 591580121}
   - component: {fileID: 591580125}
   - component: {fileID: 591580126}
-  - component: {fileID: 591580127}
   - component: {fileID: 591580128}
   - component: {fileID: 591580129}
   - component: {fileID: 591580132}
@@ -59516,20 +59515,6 @@ MonoBehaviour:
   - {fileID: 1184208846}
   - {fileID: 1042354694}
   - {fileID: 1152119135}
---- !u!114 &591580127
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 591580116}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d03a997c1bc84d3b9c7dab52adb3dba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Fuel
-  lowFuelColor: {r: 1, g: 0, b: 0, a: 1}
-  normalFuelColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &591580128
 MonoBehaviour:
   m_ObjectHideFlags: 0

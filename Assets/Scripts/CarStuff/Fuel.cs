@@ -22,30 +22,41 @@ public class Fuel : MonoBehaviour
 
     private void Awake()
     {
-        /*
-        if (slider != null)
+        // Scoped lookups: these are children of Fuel_Gauge, and Transform.Find
+        // also finds inactive children (the label template gets deactivated
+        // after the labels are built).
+        var needle = transform.Find("Gauge_Needle");
+        var labelTemplate = transform.Find("FuelLabelTemplate");
+        var gasIcon = transform.Find("Gas_Icon_Blink");
+        var carGo = GameObject.Find("Car");
+
+        if (needle == null || labelTemplate == null || carGo == null || gasIcon == null)
         {
-            slider.interactable = false;
+            Debug.LogError("Fuel: missing scene object(s) — " +
+                           (needle == null ? "'Gauge_Needle' " : "") +
+                           (labelTemplate == null ? "'FuelLabelTemplate' " : "") +
+                           (carGo == null ? "'Car' " : "") +
+                           (gasIcon == null ? "'Gas_Icon_Blink' " : "") +
+                           "not found.");
+            enabled = false;
+            return;
         }
-        */
-        needleTransform = GameObject.Find("Gauge_Needle").transform;
-        fuelLabelTemplateTransform = GameObject.Find("FuelLabelTemplate").transform;
-        
-        //builds and runs but freezes editor
-        //fuelLabelTemplateTransform.gameObject.SetActive(false)
-        
-        _playerController = GameObject.Find("Car").GetComponent<PlayerController>();
-        _gasIcon = GameObject.Find("Gas_Icon_Blink").GetComponent<Image>();
+
+        needleTransform = needle;
+        fuelLabelTemplateTransform = labelTemplate;
+        _playerController = carGo.GetComponent<PlayerController>();
+        _gasIcon = gasIcon.GetComponent<Image>();
         fuelMax = _playerController.GetMaxFuel();
         fuelCurr = _playerController.GetFuel();
-        
+
         CreateFuelLabels();
-        
+
         needleTransform.SetAsLastSibling();
     }
 
     public void SetMaxFuel(float fuel)
     {
+        fuelMax = fuel;
         fuelCurr = fuel;
     }
 
@@ -81,6 +92,8 @@ public class Fuel : MonoBehaviour
             fuelLabelTransform.eulerAngles = new Vector3(0, 0, fuelLabelAngle);
             fuelLabelTransform.gameObject.SetActive(true);
         }
+
+        fuelLabelTemplateTransform.gameObject.SetActive(false);
     }
 
     private float GetFuelRotation()

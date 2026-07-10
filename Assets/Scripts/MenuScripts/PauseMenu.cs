@@ -10,6 +10,7 @@ public class PauseMenu : MonoBehaviour
     public GameObject optionsPanel;
     public GameObject playerUI;
     [SerializeField] private GameOverPanel gameOverPanel;
+    [SerializeField] private StartInstructionsPanel startInstructionsPanel;
     public static bool IsPaused;
 
     [Header("Button SFX")]
@@ -34,11 +35,16 @@ public class PauseMenu : MonoBehaviour
         {
             playerAudioController = FindFirstObjectByType<PlayerAudioController>();
         }
+        if (startInstructionsPanel == null)
+        {
+            startInstructionsPanel = FindFirstObjectByType<StartInstructionsPanel>();
+        }
     }
 
     void Update()
     {
         if (gameOverPanel != null && gameOverPanel.IsShowing) return;
+        if (startInstructionsPanel != null && startInstructionsPanel.IsManualOpen) return;
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -133,6 +139,7 @@ public class PauseMenu : MonoBehaviour
         PlaySelectSound();
         StartInstructionsPanel.ResetForNewSession();
         Time.timeScale = 1f;
+        IsPaused = false;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
 

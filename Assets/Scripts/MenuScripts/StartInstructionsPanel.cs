@@ -27,6 +27,8 @@ public class StartInstructionsPanel : MonoBehaviour
     private int _currentPanelIndex;
     private static bool _hasShownThisSession;
 
+    public bool IsManualOpen => instructionsManual != null && instructionsManual.activeSelf;
+
     public static void ResetForNewSession()
     {
         _hasShownThisSession = false;

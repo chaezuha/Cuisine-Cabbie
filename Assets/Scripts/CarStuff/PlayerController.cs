@@ -378,8 +378,8 @@ namespace CarStuff
             var adjustedTurnRate = gearType == -1 ? -_turnRate : _turnRate;
             var absForwardSpeed = Mathf.Abs(_physics.GetForwardSpeed());
             
-           _physics.ApplyDrift(_isDrifting);
-            playerAudioController.SetDrifting(_isDrifting);
+            _physics.ApplyDrift(_isDrifting);
+            playerAudioController?.SetDrifting(_isDrifting);
             
             if (_isBraking)
             {

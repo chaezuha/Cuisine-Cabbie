@@ -45,6 +45,7 @@ namespace USCG.Core
 
         private void Update()
         {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
             if (bIsReloadingScenes || KeyCodes.Count == 0)
             {
                 return;
@@ -61,11 +62,17 @@ namespace USCG.Core
                 bIsReloadingScenes = true;
                 StartCoroutine(ReloadAllOpenScenes());
             }
+#endif
         }
 
         private IEnumerator ReloadAllOpenScenes()
         {
             Debug.Log("Reloading scenes...");
+
+            // Never carry frozen pause state into the reloaded scenes.
+            Time.timeScale = 1f;
+            AudioListener.pause = false;
+            PauseMenu.IsPaused = false;
 
             // Only one scene can be the active scene. Remember that scene, and record
             // the other scenes that are open.

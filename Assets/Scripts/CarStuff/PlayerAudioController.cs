@@ -227,33 +227,43 @@ namespace CarStuff
 
                 double introDuration = (double)gameMusicIntro.samples / gameMusicIntro.frequency;
                 _loopAudioSource.PlayScheduled(AudioSettings.dspTime + introDuration + 0.64);
-		
-		if (lowFuelMusicAudioSource != null && lowFuelMusicLoop != null)
-		{
-			lowFuelMusicAudioSource.clip = lowFuelMusicLoop;
-			lowFuelMusicAudioSource.loop = true;
-			lowFuelMusicAudioSource.volume = 0f;
-			lowFuelMusicAudioSource.PlayScheduled(AudioSettings.dspTime + introDuration);
-		}
+
+                StartLowFuelLoop(AudioSettings.dspTime + introDuration);
             }
             else if (gameMusicIntro != null)
             {
                 musicAudioSource.clip = gameMusicIntro;
                 musicAudioSource.loop = false;
                 musicAudioSource.Play();
+
+                StartLowFuelLoop(0);
             }
             else if (gameMusicLoop != null)
             {
                 musicAudioSource.clip = gameMusicLoop;
                 musicAudioSource.loop = true;
                 musicAudioSource.Play();
+
+                StartLowFuelLoop(0);
+            }
+        }
+
+        private void StartLowFuelLoop(double dspStartTime)
+        {
+            if (lowFuelMusicAudioSource == null || lowFuelMusicLoop == null)
+            {
+                return;
             }
 
-            if (lowFuelMusicAudioSource != null && lowFuelMusicLoop != null)
+            lowFuelMusicAudioSource.clip = lowFuelMusicLoop;
+            lowFuelMusicAudioSource.loop = true;
+            lowFuelMusicAudioSource.volume = 0f;
+            if (dspStartTime > 0)
             {
-                lowFuelMusicAudioSource.clip = lowFuelMusicLoop;
-                lowFuelMusicAudioSource.loop = true;
-                lowFuelMusicAudioSource.volume = 0f;
+                lowFuelMusicAudioSource.PlayScheduled(dspStartTime);
+            }
+            else
+            {
                 lowFuelMusicAudioSource.Play();
             }
         }

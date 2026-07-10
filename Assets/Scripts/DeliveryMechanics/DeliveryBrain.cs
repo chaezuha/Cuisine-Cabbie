@@ -11,7 +11,10 @@ namespace DeliveryMechanics
         [SerializeField] private GameObject particleEffects;
         public readonly HashSet<DropoffMechanics> HeldPackages = new HashSet<DropoffMechanics>();
         private int _activePickupIndex;
-        private PickupMechanics ActivePickup => _allPickups[_activePickupIndex];
+        private PickupMechanics ActivePickup =>
+            _allPickups != null && _activePickupIndex >= 0 && _activePickupIndex < _allPickups.Length
+                ? _allPickups[_activePickupIndex]
+                : null;
         private PlayerAudioController _playerAudioController;
         private PlayerController _playerController;
         private DeliveryTelemetry _telemetry;
@@ -34,6 +37,11 @@ namespace DeliveryMechanics
         public HashSet<DropoffMechanics> GetHeldPackages()
         {
             return HeldPackages;
+        }
+
+        public PickupMechanics GetActivePickup()
+        {
+            return ActivePickup;
         }
 
         public int GetDeliveryCount()
@@ -85,6 +93,11 @@ namespace DeliveryMechanics
 
         public void TryPickup()
         {
+            if (ActivePickup == null)
+            {
+                return;
+            }
+
             if (HasPackages())
             {
                 SetCurrentMessage("FINISH YOUR CURRENT DELIVERIES FIRST");
@@ -285,6 +298,11 @@ namespace DeliveryMechanics
 
         private void Update()
         {
+            if (ActivePickup == null)
+            {
+                return;
+            }
+
             bool showActive = HeldPackages.Count == 0;
             ActivePickup.SetWaypointActive(showActive);
         }

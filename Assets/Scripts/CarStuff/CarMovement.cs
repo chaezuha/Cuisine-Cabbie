@@ -25,6 +25,9 @@ namespace CarStuff
         [SerializeField] private float gripFactor;
         [SerializeField] private float turnFriction;
         [SerializeField] private float driftTurnBoost = 1.4f;
+        [SerializeField] private float driftGripFactor = 1.0f;
+        [SerializeField] private float normalGripFactor = 10.0f;
+        [SerializeField] private float gripRecoverySeconds = 10.0f;
 
         [Header("Raycast Suspension")] [SerializeField]
         private float springStrength = 500f;
@@ -71,30 +74,17 @@ namespace CarStuff
             }
         }
 
-        public void ApplyDrift(bool isDrifiting)
+        public void ApplyDrift(bool isDrifting)
         {
-            _isDrifting = isDrifiting;
-            if (isDrifiting == false)
+            _isDrifting = isDrifting;
+            if (isDrifting)
             {
-                float maxGrip = 10.0f;
-                float seconds = 10.0f;
-                if (gripFactor < maxGrip)
-                {
-                    float newGrip = maxGrip/seconds * Time.deltaTime;
-                    if (gripFactor + newGrip > maxGrip)
-                    {
-                        gripFactor = maxGrip;
-                    }
-                    else
-                    {
-                        gripFactor += newGrip;
-                    }
-                }
+                gripFactor = driftGripFactor;
             }
-            else
+            else if (gripFactor < normalGripFactor)
             {
-                gripFactor = 1.0f;
-                Debug.Log("APPLY GRIP: " + gripFactor);
+                float recovery = normalGripFactor / Mathf.Max(0.01f, gripRecoverySeconds) * Time.fixedDeltaTime;
+                gripFactor = Mathf.Min(normalGripFactor, gripFactor + recovery);
             }
         }
 
@@ -268,8 +258,13 @@ namespace CarStuff
         {
             _distanceToGround = restLength + 0.4f;
             var upright = Vector3.Dot(transform.up, Vector3.up) >= MinGroundNormalY;
-            foreach (var wheel in wheelGroundChecks)
+            foreach (var wheel in wheelGroundChecks ?? System.Array.Empty<Transform>())
             {
+                if (wheel == null)
+                {
+                    continue;
+                }
+
                 if (upright && Physics.Raycast(wheel.position, -transform.up, out var hit, restLength))
                 {
                     float compression = 1f - (hit.distance / restLength);
@@ -291,9 +286,12 @@ namespace CarStuff
             
             ClampTilt();
 
-            var speed = _rb.linearVelocity.magnitude;
-            orbitalFollow.HorizontalAxis.Recentering.Enabled = speed > 1.0f;
-            orbitalFollow.VerticalAxis.Recentering.Enabled = speed > 1.0f;
+            if (orbitalFollow != null)
+            {
+                var speed = _rb.linearVelocity.magnitude;
+                orbitalFollow.HorizontalAxis.Recentering.Enabled = speed > 1.0f;
+                orbitalFollow.VerticalAxis.Recentering.Enabled = speed > 1.0f;
+            }
         }
 
         private void ClampTilt()
